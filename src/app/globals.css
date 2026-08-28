@@ -1,26 +1,121 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
+@plugin "daisyui" {
+  themes: merchly --default, merchlydark --prefersdark;
+}
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@plugin "daisyui/theme" {
+  name: "merchly";
+  default: true;
+  prefersdark: false;
+  color-scheme: light;
+
+  --color-base-100: #ffffff;
+  --color-base-200: #f4f6f5;
+  --color-base-300: #e5e8e7;
+  --color-base-content: #2a2a2d;
+
+  --color-primary: #05df72;
+  --color-primary-content: #06301c;
+
+  --color-secondary: #009689;
+  --color-secondary-content: #ffffff;
+
+  --color-accent: #009689;
+  --color-accent-content: #ffffff;
+
+  --color-neutral: #2a2a2d;
+  --color-neutral-content: #ffffff;
+
+  --color-info: #0a8fd8;
+  --color-info-content: #ffffff;
+
+  --color-success: #05df72;
+  --color-success-content: #06301c;
+
+  --color-warning: #e3a008;
+  --color-warning-content: #2a2a2d;
+
+  --color-error: #e0303e;
+  --color-error-content: #ffffff;
+
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 1rem;
+
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+@plugin "daisyui/theme" {
+  name: "merchlydark";
+  default: false;
+  prefersdark: true;
+  color-scheme: dark;
+
+  --color-base-100: #1c1c1f;
+  --color-base-200: #232326;
+  --color-base-300: #2a2a2d;
+  --color-base-content: #f4f6f5;
+
+  --color-primary: #05df72;
+  --color-primary-content: #06301c;
+
+  --color-secondary: #14b8a6;
+  --color-secondary-content: #06231f;
+
+  --color-accent: #14b8a6;
+  --color-accent-content: #06231f;
+
+  --color-neutral: #111113;
+  --color-neutral-content: #f4f6f5;
+
+  --color-info: #38bdf8;
+  --color-info-content: #06231f;
+
+  --color-success: #05df72;
+  --color-success-content: #06301c;
+
+  --color-warning: #f0b429;
+  --color-warning-content: #2a2a2d;
+
+  --color-error: #f1495b;
+  --color-error-content: #ffffff;
+
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 1rem;
+
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-background: var(--color-base-100);
+  --color-foreground: var(--color-base-content);
+  --font-sans: var(--font-inter);
+  --font-heading: var(--font-space-grotesk);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-base-100);
+  color: var(--color-base-content);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading), var(--font-sans), sans-serif;
 }
