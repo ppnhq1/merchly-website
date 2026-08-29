@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { CheckCircle2, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { Hero } from "@/components/marketing/Hero";
 import { RateCalculator } from "@/components/marketing/RateCalculator";
 import { BenefitsSection } from "@/components/marketing/BenefitsSection";
 import { StatsBar } from "@/components/marketing/StatsBar";
@@ -7,13 +8,6 @@ import { TestimonialsSection } from "@/components/marketing/TestimonialsSection"
 import { LeadModalTrigger } from "@/components/marketing/LeadModalTrigger";
 import { industries } from "@/lib/industries";
 import { getAllPosts } from "@/lib/posts";
-
-const trustPoints = [
-  "Transparent, interchange-level pricing",
-  "Next-day funding available",
-  "24/7 US-based support",
-  "No long-term contracts",
-];
 
 const onboardingSteps = [
   { label: "Apply", detail: "5-minute application, no cost to submit" },
@@ -50,50 +44,27 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* Hero */}
-      <div className="hero bg-base-200">
-        <div className="hero-content max-w-6xl w-full flex-col lg:flex-row gap-12 py-16 sm:py-20 items-center">
-          <div className="lg:w-1/2">
-            <span className="badge badge-soft badge-secondary badge-sm">
-              Transparent pricing, no surprises
-            </span>
-            <h1 className="mt-4 text-4xl sm:text-5xl font-heading font-bold leading-tight">
-              Transparent pricing.{" "}
-              <span className="text-primary">No hidden markups.</span>
-            </h1>
-            <p className="mt-6 text-lg text-base-content/70">
-              We publish real interchange-plus rates instead of a teaser quote
-              that changes later. See exactly what you&apos;d save by
-              switching, in writing, before you sign anything.
+      <Hero />
+
+      <StatsBar />
+
+      {/* Rate calculator */}
+      <section id="rate-calculator" className="scroll-mt-16">
+        <div className="max-w-6xl mx-auto px-4 lg:px-8 py-20">
+          <div className="text-center max-w-2xl mx-auto">
+            <h2 className="text-3xl font-heading font-bold">
+              Calculate your Savings
+            </h2>
+            <p className="mt-3 text-base-content/70">
+              See what switching to Merchly could save your business, in
+              seconds.
             </p>
-            <div className="mt-8 flex flex-wrap gap-4">
-              <LeadModalTrigger source="hero-cta" className="btn btn-primary btn-lg">
-                See Your Rate
-                <ArrowRight className="h-5 w-5" aria-hidden="true" />
-              </LeadModalTrigger>
-              <Link href="/industries" className="btn btn-outline btn-lg">
-                Explore Industries
-              </Link>
-            </div>
-            <ul className="mt-10 grid grid-cols-2 gap-3">
-              {trustPoints.map((point) => (
-                <li key={point} className="flex items-center gap-2 text-sm">
-                  <CheckCircle2
-                    className="h-4 w-4 text-primary shrink-0"
-                    aria-hidden="true"
-                  />
-                  {point}
-                </li>
-              ))}
-            </ul>
           </div>
-          <div className="aura aura-gold lg:w-1/2 w-full">
+          <div className="w-full mt-12">
             <RateCalculator />
           </div>
         </div>
-      </div>
-
-      <StatsBar />
+      </section>
 
       {/* Benefits */}
       <BenefitsSection />

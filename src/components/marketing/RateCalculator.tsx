@@ -88,240 +88,256 @@ export function RateCalculator() {
         <span className="badge badge-soft badge-secondary badge-sm w-fit">
           Live estimate
         </span>
-        <h3 className="card-title font-heading mt-2">Estimate your savings</h3>
-        <p className="text-sm text-base-content/70">
-          A quick estimate — final pricing depends on your business type and
-          processing history.
-        </p>
 
-        <fieldset className="fieldset mt-4 px-0">
-          <label className="label" htmlFor="feeModelMerchantPays">
-            Who covers the processing fee?
-          </label>
-          <div className="join w-full">
-            <input
-              id="feeModelMerchantPays"
-              type="radio"
-              name="feeModel"
-              className="join-item btn btn-sm grow"
-              aria-label="I'll cover the fee"
-              checked={feeModel === "merchant-pays"}
-              onChange={() => setFeeModel("merchant-pays")}
-            />
-            <input
-              id="feeModelCustomerPays"
-              type="radio"
-              name="feeModel"
-              className="join-item btn btn-sm grow"
-              aria-label="Pass it to my customers"
-              checked={feeModel === "customer-pays"}
-              onChange={() => setFeeModel("customer-pays")}
-            />
-          </div>
-          <p className="text-xs text-base-content/60 mt-1">
-            {feeModel === "merchant-pays"
-              ? "You absorb the processing cost — priced at interchange plus a flat markup."
-              : "A compliant cash-discount program shifts the fee to the customer at checkout."}
-          </p>
-        </fieldset>
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 mt-2">
+          {/* Inputs */}
+          <div>
+            <h3 className="card-title font-heading">Estimate your savings</h3>
+            <p className="text-sm text-base-content/70">
+              A quick estimate — final pricing depends on your business type
+              and processing history.
+            </p>
 
-        <fieldset className="fieldset mt-2 px-0">
-          <div className="flex items-center justify-between gap-2">
-            <label className="label" htmlFor="monthlyVolume">
-              Average monthly card volume
-            </label>
-            {statementSource === "calculated" && (
-              <span className="badge badge-soft badge-success badge-xs">
-                From your statement
-              </span>
-            )}
-          </div>
-          <input
-            id="monthlyVolume"
-            type="range"
-            min={MIN_VOLUME}
-            max={MAX_VOLUME}
-            step={1000}
-            value={monthlyVolume}
-            onChange={(event) => {
-              setMonthlyVolume(Number(event.target.value));
-              setStatementSource("manual");
-            }}
-            className="range range-primary range-sm"
-          />
-          <div className="text-right font-semibold tabular-nums">
-            {formatCurrency(monthlyVolume)}
-          </div>
-        </fieldset>
+            <fieldset className="fieldset mt-4 px-0">
+              <label className="label" htmlFor="feeModelMerchantPays">
+                Who covers the processing fee?
+              </label>
+              <div className="join w-full">
+                <input
+                  id="feeModelMerchantPays"
+                  type="radio"
+                  name="feeModel"
+                  className="join-item btn btn-sm grow"
+                  aria-label="I'll cover the fee"
+                  checked={feeModel === "merchant-pays"}
+                  onChange={() => setFeeModel("merchant-pays")}
+                />
+                <input
+                  id="feeModelCustomerPays"
+                  type="radio"
+                  name="feeModel"
+                  className="join-item btn btn-sm grow"
+                  aria-label="Pass it to my customers"
+                  checked={feeModel === "customer-pays"}
+                  onChange={() => setFeeModel("customer-pays")}
+                />
+              </div>
+              <p className="text-xs text-base-content/60 mt-1">
+                {feeModel === "merchant-pays"
+                  ? "You absorb the processing cost — priced at interchange plus a flat markup."
+                  : "A compliant cash-discount program shifts the fee to the customer at checkout."}
+              </p>
+            </fieldset>
 
-        <fieldset className="fieldset px-0">
-          <div className="flex items-center justify-between gap-2">
-            <label className="label" htmlFor="currentRate">
-              Your current effective rate (%)
-            </label>
-            {statementSource === "calculated" && (
-              <span className="badge badge-soft badge-success badge-xs">
-                Calculated from your statement
-              </span>
-            )}
-          </div>
-          <input
-            id="currentRate"
-            type="range"
-            min={MIN_DISPLAYED_RATE}
-            max={MAX_DISPLAYED_RATE}
-            step={0.1}
-            value={currentRate}
-            onChange={(event) => {
-              setCurrentRate(Number(event.target.value));
-              setStatementSource("manual");
-            }}
-            className="range range-secondary range-sm"
-          />
-          <div className="text-right font-semibold tabular-nums">
-            {currentRate.toFixed(1)}%
-          </div>
+            <fieldset className="fieldset mt-2 px-0">
+              <div className="flex items-center justify-between gap-2">
+                <label className="label" htmlFor="monthlyVolume">
+                  Average monthly card volume
+                </label>
+                {statementSource === "calculated" && (
+                  <span className="badge badge-soft badge-success badge-xs">
+                    From your statement
+                  </span>
+                )}
+              </div>
+              <input
+                id="monthlyVolume"
+                type="range"
+                min={MIN_VOLUME}
+                max={MAX_VOLUME}
+                step={1000}
+                value={monthlyVolume}
+                onChange={(event) => {
+                  setMonthlyVolume(Number(event.target.value));
+                  setStatementSource("manual");
+                }}
+                className="range range-primary range-sm"
+              />
+              <div className="text-right font-semibold tabular-nums">
+                {formatCurrency(monthlyVolume)}
+              </div>
+            </fieldset>
 
-          {!showRateHelper ? (
-            <button
-              type="button"
-              onClick={() => setShowRateHelper(true)}
-              className="btn btn-link btn-xs justify-start px-0 mt-1 no-underline hover:underline"
-            >
-              <CircleHelp className="h-3.5 w-3.5" aria-hidden="true" />
-              Unsure of your effective rate? We can help
-            </button>
-          ) : (
-            <div className="mt-2 rounded-box border border-base-300 bg-base-200 p-3">
-              <div className="flex items-start justify-between gap-2">
-                <div className="flex items-start gap-2">
-                  <Info
-                    className="h-4 w-4 text-info shrink-0 mt-0.5"
-                    aria-hidden="true"
-                  />
-                  <p className="text-xs text-base-content/70">
-                    Most processors advertise a low headline rate, but that
-                    number rarely matches what actually leaves your bank
-                    account. PCI fees, statement fees, batch fees, and
-                    monthly minimums quietly push your real effective rate
-                    higher. Grab your last statement and enter your total
-                    volume and total fees below — we&apos;ll calculate your
-                    true rate and update the estimate above.
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setShowRateHelper(false)}
-                  aria-label="Close"
-                  className="btn btn-ghost btn-xs btn-circle shrink-0"
-                >
-                  <X className="h-3.5 w-3.5" aria-hidden="true" />
-                </button>
+            <fieldset className="fieldset px-0">
+              <div className="flex items-center justify-between gap-2">
+                <label className="label" htmlFor="currentRate">
+                  Your current effective rate (%)
+                </label>
+                {statementSource === "calculated" && (
+                  <span className="badge badge-soft badge-success badge-xs">
+                    Calculated from your statement
+                  </span>
+                )}
+              </div>
+              <input
+                id="currentRate"
+                type="range"
+                min={MIN_DISPLAYED_RATE}
+                max={MAX_DISPLAYED_RATE}
+                step={0.1}
+                value={currentRate}
+                onChange={(event) => {
+                  setCurrentRate(Number(event.target.value));
+                  setStatementSource("manual");
+                }}
+                className="range range-secondary range-sm"
+              />
+              <div className="text-right font-semibold tabular-nums">
+                {currentRate.toFixed(1)}%
               </div>
 
-              <label className="label mt-3" htmlFor="volumeProcessed">
-                Total volume processed last month
-              </label>
-              <label className="input input-sm w-full">
-                $
-                <input
-                  id="volumeProcessed"
-                  type="number"
-                  min={0}
-                  step={1}
-                  inputMode="decimal"
-                  placeholder="25,000"
-                  value={volumeProcessed}
-                  onChange={(event) => setVolumeProcessed(event.target.value)}
-                  className="tabular-nums"
-                />
-              </label>
+              {!showRateHelper ? (
+                <button
+                  type="button"
+                  onClick={() => setShowRateHelper(true)}
+                  className="btn btn-link btn-xs justify-start px-0 mt-1 no-underline hover:underline"
+                >
+                  <CircleHelp className="h-3.5 w-3.5" aria-hidden="true" />
+                  Unsure of your effective rate? We can help
+                </button>
+              ) : (
+                <div className="mt-2 rounded-box border border-base-300 bg-base-200 p-3">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex items-start gap-2">
+                      <Info
+                        className="h-4 w-4 text-info shrink-0 mt-0.5"
+                        aria-hidden="true"
+                      />
+                      <p className="text-xs text-base-content/70">
+                        Most processors advertise a low headline rate, but
+                        that number rarely matches what actually leaves your
+                        bank account. PCI fees, statement fees, batch fees,
+                        and monthly minimums quietly push your real
+                        effective rate higher. Grab your last statement and
+                        enter your total volume and total fees below —
+                        we&apos;ll calculate your true rate and update the
+                        estimate.
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setShowRateHelper(false)}
+                      aria-label="Close"
+                      className="btn btn-ghost btn-xs btn-circle shrink-0"
+                    >
+                      <X className="h-3.5 w-3.5" aria-hidden="true" />
+                    </button>
+                  </div>
 
-              <label className="label mt-2" htmlFor="feesPaid">
-                Total fees paid last month
-              </label>
-              <label className="input input-sm w-full">
-                $
-                <input
-                  id="feesPaid"
-                  type="number"
-                  min={0}
-                  step={1}
-                  inputMode="decimal"
-                  placeholder="875"
-                  value={feesPaid}
-                  onChange={(event) => setFeesPaid(event.target.value)}
-                  className="tabular-nums"
-                />
-              </label>
+                  <label className="label mt-3" htmlFor="volumeProcessed">
+                    Total volume processed last month
+                  </label>
+                  <label className="input input-sm w-full">
+                    $
+                    <input
+                      id="volumeProcessed"
+                      type="number"
+                      min={0}
+                      step={1}
+                      inputMode="decimal"
+                      placeholder="25,000"
+                      value={volumeProcessed}
+                      onChange={(event) =>
+                        setVolumeProcessed(event.target.value)
+                      }
+                      className="tabular-nums"
+                    />
+                  </label>
 
-              <button
-                type="button"
-                onClick={handleCalculateEffectiveRate}
-                disabled={!canCalculate}
-                className="btn btn-secondary btn-sm w-full mt-3"
+                  <label className="label mt-2" htmlFor="feesPaid">
+                    Total fees paid last month
+                  </label>
+                  <label className="input input-sm w-full">
+                    $
+                    <input
+                      id="feesPaid"
+                      type="number"
+                      min={0}
+                      step={1}
+                      inputMode="decimal"
+                      placeholder="875"
+                      value={feesPaid}
+                      onChange={(event) => setFeesPaid(event.target.value)}
+                      className="tabular-nums"
+                    />
+                  </label>
+
+                  <button
+                    type="button"
+                    onClick={handleCalculateEffectiveRate}
+                    disabled={!canCalculate}
+                    className="btn btn-secondary btn-sm w-full mt-3"
+                  >
+                    Calculate my effective rate
+                  </button>
+                </div>
+              )}
+            </fieldset>
+          </div>
+
+          {/* Results */}
+          <div className="flex flex-col lg:border-l lg:border-base-300 lg:pl-8">
+            <div className="stats stats-vertical bg-base-200 border border-base-300">
+              <div className="stat px-4 py-3">
+                <div className="stat-title text-xs">Current cost</div>
+                <div className="stat-value text-lg tabular-nums">
+                  {formatCurrency(currentCost)}
+                </div>
+                <div className="stat-desc text-xs">per month</div>
+              </div>
+              <div className="stat px-4 py-3">
+                <div className="stat-title text-xs">With Merchly</div>
+                <div className="stat-value text-lg text-secondary tabular-nums">
+                  {formatCurrency(merchlyCost)}
+                </div>
+                <div className="stat-desc text-xs">
+                  {feeModel === "merchant-pays"
+                    ? "per month"
+                    : "you pay $0/mo"}
+                </div>
+              </div>
+              <div className="stat px-4 py-3">
+                <div className="stat-title text-xs">Potential savings</div>
+                <div className="stat-value text-lg text-primary tabular-nums">
+                  {formatCurrency(annualSavings)}
+                </div>
+                <div className="stat-desc text-xs">
+                  per year ({formatCurrency(monthlySavings)}/mo)
+                </div>
+              </div>
+            </div>
+
+            {savingsPercent > 0 && (
+              <div className="mt-4">
+                <div className="flex justify-between text-xs text-base-content/60">
+                  <span>Cost reduction vs. your current rate</span>
+                  <span className="font-semibold tabular-nums">
+                    {savingsPercent}%
+                  </span>
+                </div>
+                <progress
+                  className="progress progress-primary w-full mt-1"
+                  value={savingsPercent}
+                  max={100}
+                />
+              </div>
+            )}
+
+            <div className="mt-auto pt-6">
+              <LeadModalTrigger
+                source="rate-calculator"
+                className="btn btn-primary btn-block"
               >
-                Calculate my effective rate
-              </button>
-            </div>
-          )}
-        </fieldset>
-
-        <div className="stats stats-vertical sm:stats-horizontal mt-4 bg-base-200 border border-base-300">
-          <div className="stat px-4 py-3">
-            <div className="stat-title text-xs">Current cost</div>
-            <div className="stat-value text-lg tabular-nums">
-              {formatCurrency(currentCost)}
-            </div>
-            <div className="stat-desc text-xs">per month</div>
-          </div>
-          <div className="stat px-4 py-3">
-            <div className="stat-title text-xs">With Merchly</div>
-            <div className="stat-value text-lg text-secondary tabular-nums">
-              {formatCurrency(merchlyCost)}
-            </div>
-            <div className="stat-desc text-xs">
-              {feeModel === "merchant-pays" ? "per month" : "you pay $0/mo"}
-            </div>
-          </div>
-          <div className="stat px-4 py-3">
-            <div className="stat-title text-xs">Potential savings</div>
-            <div className="stat-value text-lg text-primary tabular-nums">
-              {formatCurrency(annualSavings)}
-            </div>
-            <div className="stat-desc text-xs">
-              per year ({formatCurrency(monthlySavings)}/mo)
+                <PhoneCall className="h-4 w-4" aria-hidden="true" />
+                Get my actual custom rate
+              </LeadModalTrigger>
+              <p className="text-xs text-base-content/60 text-center mt-2">
+                This is only a ballpark estimate. Talk to us for pricing
+                built around your real statement and processing history.
+              </p>
             </div>
           </div>
         </div>
-
-        {savingsPercent > 0 && (
-          <div className="mt-4">
-            <div className="flex justify-between text-xs text-base-content/60">
-              <span>Cost reduction vs. your current rate</span>
-              <span className="font-semibold tabular-nums">{savingsPercent}%</span>
-            </div>
-            <progress
-              className="progress progress-primary w-full mt-1"
-              value={savingsPercent}
-              max={100}
-            />
-          </div>
-        )}
-
-        <div className="divider my-2" />
-
-        <LeadModalTrigger
-          source="rate-calculator"
-          className="btn btn-primary btn-block"
-        >
-          <PhoneCall className="h-4 w-4" aria-hidden="true" />
-          Get my actual custom rate
-        </LeadModalTrigger>
-        <p className="text-xs text-base-content/60 text-center mt-2">
-          This is only a ballpark estimate. Talk to us for pricing built
-          around your real statement and processing history.
-        </p>
       </div>
     </div>
   );

@@ -24,13 +24,15 @@ export const metadata: Metadata = {
     "Merchly provides modern merchant services and payment processing built for today's businesses — transparent rates, fast approvals, and support for high-risk industries.",
 };
 
+const htmlClassName = [
+  inter.variable,
+  spaceGrotesk.variable,
+  "h-full antialiased scroll-smooth",
+].join(" ");
+
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-      className={`${inter.variable} ${spaceGrotesk.variable} h-full antialiased`}
-    >
+    <html lang="en" suppressHydrationWarning className={htmlClassName}>
       <body className="min-h-full flex flex-col">
         <Providers>
           <SiteHeader />

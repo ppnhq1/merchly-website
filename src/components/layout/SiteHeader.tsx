@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Menu, ChevronDown, ArrowRight } from "lucide-react";
+import { Menu, ArrowRight } from "lucide-react";
 import { highRiskNiches, industries } from "@/lib/industries";
 import { LeadModalTrigger } from "@/components/marketing/LeadModalTrigger";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
@@ -77,10 +77,9 @@ export function SiteHeader() {
           <button
             type="button"
             popoverTarget="industries-panel"
-            className="btn btn-ghost btn-sm gap-1"
+            className="btn btn-ghost btn-sm"
           >
             Industries
-            <ChevronDown className="h-3.5 w-3.5" aria-hidden="true" />
           </button>
           <div
             id="industries-panel"
