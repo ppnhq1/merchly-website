@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 
 // TODO: replace with real customer quotes before launch.
 const testimonials = [
@@ -41,7 +40,20 @@ const testimonials = [
   },
 ];
 
-const AUTO_SCROLL_INTERVAL_MS = 4500;
+// The track renders the list twice back-to-back. Scrolling exactly one set's
+// width and wrapping scrollLeft by that same amount keeps the content
+// visually identical across the seam, so the loop never "resets" visibly.
+const PIXELS_PER_SECOND = 32;
+
+const cardClass =
+  "card bg-base-100 border border-base-300 shrink-0 w-[19rem] sm:w-[22rem] transition motion-safe:duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-lg";
+
+function prefersReducedMotion() {
+  return (
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+}
 
 export function TestimonialsSection() {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -49,78 +61,57 @@ export function TestimonialsSection() {
 
   useEffect(() => {
     const track = trackRef.current;
-    if (!track) return;
+    if (!track || prefersReducedMotion()) return;
 
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    if (prefersReducedMotion) return;
+    let rafId: number;
+    let lastTime: number | null = null;
 
-    const advance = () => {
-      if (pausedRef.current) return;
-      const atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 10;
-      track.scrollTo({
-        left: atEnd ? 0 : track.scrollLeft + track.clientWidth * 0.9,
-        behavior: "instant",
-      });
+    const tick = (now: number) => {
+      if (lastTime === null) lastTime = now;
+      const deltaSeconds = (now - lastTime) / 1000;
+      lastTime = now;
+
+      if (!pausedRef.current) {
+        track.scrollLeft += PIXELS_PER_SECOND * deltaSeconds;
+        const setWidth = track.scrollWidth / 2;
+        if (track.scrollLeft >= setWidth) {
+          track.scrollLeft -= setWidth;
+        }
+      }
+
+      rafId = requestAnimationFrame(tick);
     };
+    rafId = requestAnimationFrame(tick);
 
-    const interval = setInterval(advance, AUTO_SCROLL_INTERVAL_MS);
-    return () => clearInterval(interval);
+    return () => cancelAnimationFrame(rafId);
   }, []);
 
-  const scrollByStep = (direction: 1 | -1) => {
-    const track = trackRef.current;
-    if (!track) return;
-    track.scrollBy({ left: direction * track.clientWidth * 0.9, behavior: "smooth" });
-  };
+  const pause = () => (pausedRef.current = true);
+  const resume = () => (pausedRef.current = false);
 
   return (
     <section className="max-w-6xl mx-auto px-4 lg:px-8 py-20">
-      <div className="flex items-end justify-between gap-4 flex-wrap">
-        <div className="max-w-2xl">
-          <h2 className="text-3xl font-heading font-bold">
-            Trusted by businesses like yours
-          </h2>
-          <p className="mt-3 text-base-content/70">
-            Illustrative feedback — final testimonials will be sourced from
-            verified Merchly merchants before launch.
-          </p>
-        </div>
-        <div className="flex gap-2 shrink-0">
-          <button
-            type="button"
-            onClick={() => scrollByStep(-1)}
-            className="btn btn-circle btn-outline btn-sm"
-            aria-label="Previous testimonial"
-          >
-            <ChevronLeft className="h-4 w-4" aria-hidden="true" />
-          </button>
-          <button
-            type="button"
-            onClick={() => scrollByStep(1)}
-            className="btn btn-circle btn-outline btn-sm"
-            aria-label="Next testimonial"
-          >
-            <ChevronRight className="h-4 w-4" aria-hidden="true" />
-          </button>
-        </div>
+      <div className="max-w-2xl">
+        <h2 className="text-3xl font-heading font-bold">
+          Trusted by businesses like yours
+        </h2>
+        <p className="mt-3 text-base-content/70">
+          Illustrative feedback — final testimonials will be sourced from
+          verified Merchly merchants before launch.
+        </p>
       </div>
 
       <div
         ref={trackRef}
-        onMouseEnter={() => (pausedRef.current = true)}
-        onMouseLeave={() => (pausedRef.current = false)}
-        onFocus={() => (pausedRef.current = true)}
-        onBlur={() => (pausedRef.current = false)}
-        className="carousel carousel-start w-full mt-10 gap-6"
+        onMouseEnter={pause}
+        onMouseLeave={resume}
+        onTouchStart={pause}
+        onTouchEnd={resume}
+        className="mt-10 flex gap-6 overflow-hidden"
       >
-        {testimonials.map((testimonial) => (
-          <figure
-            key={testimonial.name}
-            className="carousel-item card bg-base-100 border border-base-300 w-[19rem] sm:w-[22rem]"
-          >
-            <blockquote className="card-body">
+        {[...testimonials, ...testimonials].map((testimonial, index) => (
+          <figure key={`${testimonial.name}-${index}`} className={cardClass}>
+            <blockquote className="p-6">
               <p className="text-base-content/80">
                 &ldquo;{testimonial.quote}&rdquo;
               </p>
