@@ -7,6 +7,7 @@ const leadSchema = z.object({
   email: z.string().email(),
   phone: z.string().max(50).optional(),
   businessName: z.string().max(200).optional(),
+  businessType: z.string().max(100).optional(),
   message: z.string().max(2000).optional(),
   source: z.string().min(1).max(100),
   // Honeypot field: real users never fill this in.

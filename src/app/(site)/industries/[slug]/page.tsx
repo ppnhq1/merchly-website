@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ArrowRight } from "lucide-react";
 import { LeadModalTrigger } from "@/components/marketing/LeadModalTrigger";
 import { getIndustryBySlug, highRiskNiches, industries } from "@/lib/industries";
 
@@ -36,56 +37,74 @@ export default async function IndustryPage({
   const isHighRisk = slug === "high-risk";
 
   return (
-    <div className="max-w-4xl mx-auto px-4 lg:px-8 py-20">
-      <p className="text-sm text-base-content/50">
-        <Link href="/industries" className="link link-hover">
-          Industries
-        </Link>{" "}
-        / {industry.name}
-      </p>
-      <h1 className="mt-2 text-4xl font-heading font-bold">{industry.name}</h1>
-      <p className="mt-4 text-xl text-base-content/70">{industry.tagline}</p>
-      <p className="mt-6 text-base-content/80 leading-relaxed">
-        {industry.summary}
-      </p>
-
-      {isHighRisk && (
-        <div className="mt-12">
-          <h2 className="text-2xl font-heading font-bold">
-            High-Risk Specialties
-          </h2>
-          <div className="mt-6 grid sm:grid-cols-2 gap-4">
-            {highRiskNiches.map((niche) => (
-              <Link
-                key={niche.slug}
-                href={`/industries/high-risk/${niche.slug}`}
-                className="card bg-base-200 hover:bg-base-300 transition-colors"
-              >
-                <div className="card-body">
-                  <h3 className="card-title text-base font-heading">
-                    {niche.name}
-                  </h3>
-                  <p className="text-sm text-base-content/70">
-                    {niche.tagline}
-                  </p>
-                </div>
-              </Link>
-            ))}
+    <div>
+      <section className="bg-base-200">
+        <div className="max-w-4xl mx-auto px-4 lg:px-8 pt-12 pb-16 sm:pt-16 sm:pb-20">
+          <div className="breadcrumbs text-sm text-base-content/50">
+            <ul>
+              <li>
+                <Link href="/industries">Industries</Link>
+              </li>
+              <li>{industry.name}</li>
+            </ul>
+          </div>
+          <h1 className="mt-2 text-4xl font-heading font-bold">{industry.name}</h1>
+          <p className="mt-4 text-xl text-base-content/70">{industry.tagline}</p>
+          <div className="mt-6 flex flex-wrap gap-4">
+            <LeadModalTrigger
+              source={`industry-hero-${slug}`}
+              className="btn btn-primary btn-lg"
+            >
+              Get My Free Quote
+            </LeadModalTrigger>
           </div>
         </div>
-      )}
+      </section>
 
-      <div className="mt-16 card bg-base-200">
-        <div className="card-body items-center text-center sm:items-start sm:text-left sm:flex-row sm:justify-between">
-          <h2 className="card-title font-heading">
-            Get a quote for your {industry.name.toLowerCase()} business
-          </h2>
-          <LeadModalTrigger
-            source={`industry-${slug}`}
-            className="btn btn-primary shrink-0"
-          >
-            Get My Free Quote
-          </LeadModalTrigger>
+      <div className="max-w-4xl mx-auto px-4 lg:px-8 py-16">
+        <p className="text-base-content/80 leading-relaxed text-lg">
+          {industry.summary}
+        </p>
+
+        {isHighRisk && (
+          <div className="mt-16">
+            <h2 className="text-2xl font-heading font-bold">
+              High-Risk Specialties
+            </h2>
+            <div className="mt-6 grid sm:grid-cols-2 gap-4">
+              {highRiskNiches.map((niche) => (
+                <Link
+                  key={niche.slug}
+                  href={`/industries/high-risk/${niche.slug}`}
+                  className="card bg-base-200 hover:bg-base-300 transition-colors"
+                >
+                  <div className="card-body">
+                    <h3 className="card-title text-base font-heading">
+                      {niche.name}
+                    </h3>
+                    <p className="text-sm text-base-content/70">
+                      {niche.tagline}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="mt-16 card bg-neutral text-neutral-content">
+          <div className="card-body items-center text-center sm:items-start sm:text-left sm:flex-row sm:justify-between gap-4">
+            <h2 className="card-title font-heading">
+              Get a quote for your {industry.name.toLowerCase()} business
+            </h2>
+            <LeadModalTrigger
+              source={`industry-${slug}`}
+              className="btn btn-primary shrink-0 inline-flex items-center gap-1"
+            >
+              Get My Free Quote
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </LeadModalTrigger>
+          </div>
         </div>
       </div>
     </div>

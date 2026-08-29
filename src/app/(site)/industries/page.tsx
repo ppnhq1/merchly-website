@@ -1,5 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import {
+  UtensilsCrossed,
+  ShoppingBag,
+  Globe,
+  ShieldAlert,
+  Leaf,
+  Lock,
+  TriangleAlert,
+  Repeat,
+  ArrowRight,
+  type LucideIcon,
+} from "lucide-react";
 import { highRiskNiches, industries } from "@/lib/industries";
 
 export const metadata: Metadata = {
@@ -8,58 +20,109 @@ export const metadata: Metadata = {
     "Merchly provides specialized merchant services across restaurants, retail, e-commerce, and high-risk industries.",
 };
 
+const industryIcons: Record<string, LucideIcon> = {
+  restaurants: UtensilsCrossed,
+  retail: ShoppingBag,
+  "e-commerce": Globe,
+  "high-risk": ShieldAlert,
+};
+
+const highRiskIcons: Record<string, LucideIcon> = {
+  "cbd-nutraceuticals": Leaf,
+  "adult-entertainment": Lock,
+  "vape-tobacco-firearms": TriangleAlert,
+  "subscription-mlm-dating": Repeat,
+};
+
 export default function IndustriesPage() {
   return (
-    <div className="max-w-6xl mx-auto px-4 lg:px-8 py-20">
-      <h1 className="text-4xl font-heading font-bold">Industries We Serve</h1>
-      <p className="mt-4 text-lg text-base-content/70 max-w-2xl">
-        Every industry processes payments differently. Here&apos;s how
-        Merchly adapts to yours.
-      </p>
+    <div>
+      <section className="bg-base-200">
+        <div className="max-w-6xl mx-auto px-4 lg:px-8 py-16 sm:py-20">
+          <h1 className="text-4xl font-heading font-bold">Industries We Serve</h1>
+          <p className="mt-4 text-lg text-base-content/70 max-w-2xl">
+            Every industry processes payments differently. Here&apos;s how
+            Merchly adapts to yours.
+          </p>
+        </div>
+      </section>
 
-      <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {industries.map((industry) => (
-          <Link
-            key={industry.slug}
-            href={`/industries/${industry.slug}`}
-            className="card bg-base-100 border border-base-300 hover:border-primary transition-colors"
-          >
-            <div className="card-body">
-              <h2 className="card-title text-lg font-heading">
-                {industry.name}
+      <div className="max-w-6xl mx-auto px-4 lg:px-8 py-20">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {industries.map((industry) => {
+            const Icon = industryIcons[industry.slug] ?? Globe;
+            return (
+              <Link
+                key={industry.slug}
+                href={`/industries/${industry.slug}`}
+                className="card bg-base-100 border border-base-300 hover:border-primary transition-colors"
+              >
+                <div className="card-body">
+                  <div className="h-11 w-11 mask mask-squircle bg-base-200 text-base-content/70 flex items-center justify-center">
+                    <Icon className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />
+                  </div>
+                  <h2 className="card-title text-lg font-heading mt-2">
+                    {industry.name}
+                  </h2>
+                  <p className="text-sm text-base-content/70">
+                    {industry.tagline}
+                  </p>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+
+        <div className="mt-20">
+          <div className="flex items-end justify-between gap-4 flex-wrap">
+            <div>
+              <h2 className="text-2xl font-heading font-bold">
+                High-Risk Specialties
               </h2>
-              <p className="text-sm text-base-content/70">
-                {industry.tagline}
+              <p className="mt-3 text-base-content/70 max-w-2xl">
+                A closer look at the high-risk categories we specialize in.
               </p>
             </div>
-          </Link>
-        ))}
-      </div>
+          </div>
+          <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {highRiskNiches.map((niche) => {
+              const Icon = highRiskIcons[niche.slug] ?? ShieldAlert;
+              return (
+                <Link
+                  key={niche.slug}
+                  href={`/industries/high-risk/${niche.slug}`}
+                  className="card bg-base-200 border border-transparent hover:border-primary hover:bg-base-100 transition-colors"
+                >
+                  <div className="card-body">
+                    <div className="h-10 w-10 mask mask-squircle bg-base-300 text-base-content flex items-center justify-center">
+                      <Icon className="h-4.5 w-4.5" strokeWidth={1.75} aria-hidden="true" />
+                    </div>
+                    <h3 className="card-title text-base font-heading mt-2">
+                      {niche.name}
+                    </h3>
+                    <p className="text-sm text-base-content/70">
+                      {niche.tagline}
+                    </p>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
 
-      <div className="mt-20">
-        <h2 className="text-2xl font-heading font-bold">
-          High-Risk Specialties
-        </h2>
-        <p className="mt-3 text-base-content/70 max-w-2xl">
-          A closer look at the high-risk categories we specialize in.
-        </p>
-        <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {highRiskNiches.map((niche) => (
+        <div className="mt-16 card bg-neutral text-neutral-content">
+          <div className="card-body sm:flex-row sm:items-center sm:justify-between gap-4 text-center sm:text-left">
+            <h2 className="card-title font-heading">
+              Don&apos;t see your industry listed?
+            </h2>
             <Link
-              key={niche.slug}
-              href={`/industries/high-risk/${niche.slug}`}
-              className="card bg-base-200 hover:bg-base-300 transition-colors"
+              href="/contact-us"
+              className="btn btn-primary shrink-0 inline-flex items-center gap-1"
             >
-              <div className="card-body">
-                <h3 className="card-title text-base font-heading">
-                  {niche.name}
-                </h3>
-                <p className="text-sm text-base-content/70">
-                  {niche.tagline}
-                </p>
-              </div>
+              Ask us directly
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
-          ))}
+          </div>
         </div>
       </div>
     </div>

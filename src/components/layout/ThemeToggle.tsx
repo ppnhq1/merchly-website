@@ -2,29 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
+import { Sun, Moon, Monitor } from "lucide-react";
 
 const options = [
-  { value: "merchly", label: "Light" },
-  { value: "merchlydark", label: "Dark" },
-  { value: "system", label: "System" },
+  { value: "light", label: "Light", icon: Sun },
+  { value: "dark", label: "Dark", icon: Moon },
+  { value: "system", label: "System", icon: Monitor },
 ] as const;
-
-function SunIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="h-5 w-5">
-      <circle cx="12" cy="12" r="4" />
-      <path strokeLinecap="round" d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
-    </svg>
-  );
-}
-
-function MoonIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="h-5 w-5">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
-    </svg>
-  );
-}
 
 export function ThemeToggle() {
   const { theme, setTheme, resolvedTheme } = useTheme();
@@ -39,35 +23,45 @@ export function ThemeToggle() {
   }, []);
 
   if (!mounted) {
-    return <div className="btn btn-ghost btn-circle" aria-hidden="true" />;
+    return (
+      <div className="skeleton h-8 w-8 rounded-full shrink-0" aria-hidden="true" />
+    );
   }
 
   return (
-    <div className="dropdown dropdown-end">
+    <>
       <button
         type="button"
-        tabIndex={0}
-        className="btn btn-ghost btn-circle"
+        className="btn btn-ghost btn-circle btn-sm"
+        popoverTarget="theme-nav-menu"
+        style={{ anchorName: "--theme-nav-menu" } as React.CSSProperties}
         aria-label="Change theme"
       >
-        {resolvedTheme === "merchlydark" ? <MoonIcon /> : <SunIcon />}
+        {resolvedTheme === "dark" ? (
+          <Moon className="h-4.5 w-4.5" aria-hidden="true" />
+        ) : (
+          <Sun className="h-4.5 w-4.5" aria-hidden="true" />
+        )}
       </button>
       <ul
-        tabIndex={0}
-        className="dropdown-content menu bg-base-100 rounded-box z-50 mt-3 w-40 p-2 shadow border border-base-300"
+        id="theme-nav-menu"
+        popover="auto"
+        className="dropdown dropdown-end menu menu-sm bg-base-100 rounded-box z-50 mt-3 w-40 p-2 shadow-lg border border-base-300"
+        style={{ positionAnchor: "--theme-nav-menu" } as React.CSSProperties}
       >
         {options.map((option) => (
           <li key={option.value}>
             <button
               type="button"
-              className={theme === option.value ? "active" : ""}
+              className={theme === option.value ? "menu-active" : ""}
               onClick={() => setTheme(option.value)}
             >
+              <option.icon className="h-4 w-4" aria-hidden="true" />
               {option.label}
             </button>
           </li>
         ))}
       </ul>
-    </div>
+    </>
   );
 }

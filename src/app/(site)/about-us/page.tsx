@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { EyeOff, Building2, PhoneCall, Users } from "lucide-react";
+import { LeadModalTrigger } from "@/components/marketing/LeadModalTrigger";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -11,51 +13,71 @@ const values = [
     title: "Transparency first",
     description:
       "No surprise fees, no fine print games. You'll always know exactly what you're paying and why.",
+    icon: EyeOff,
   },
   {
     title: "Built for every business",
     description:
       "From your neighborhood restaurant to high-risk e-commerce, we design processing around your industry's real needs.",
+    icon: Building2,
   },
   {
     title: "Support that answers the phone",
     description:
       "Real people, US-based, available when a payment issue can't wait.",
+    icon: PhoneCall,
   },
 ];
 
 export default function AboutUsPage() {
   return (
-    <div className="max-w-4xl mx-auto px-4 lg:px-8 py-20">
-      <h1 className="text-4xl font-heading font-bold">About Merchly</h1>
-      <p className="mt-6 text-lg text-base-content/70">
-        {/* Placeholder copy — replace with the real company story. */}
-        Merchly was founded to fix what&apos;s broken about merchant
-        services: opaque pricing, slow approvals, and processors that walk
-        away the moment a business doesn&apos;t fit a narrow mold. We built
-        the payment partner we wished existed — transparent, fast, and
-        willing to work with the industries other processors won&apos;t.
-      </p>
+    <div>
+      <section className="bg-base-200">
+        <div className="max-w-4xl mx-auto px-4 lg:px-8 pt-12 pb-16 sm:pt-16 sm:pb-20">
+          <h1 className="text-4xl font-heading font-bold">About Merchly</h1>
+          <p className="mt-6 text-lg text-base-content/70">
+            {/* Placeholder copy — replace with the real company story. */}
+            Merchly was founded to fix what&apos;s broken about merchant
+            services: opaque pricing, slow approvals, and processors that
+            walk away the moment a business doesn&apos;t fit a narrow mold.
+            We built the payment partner we wished existed — transparent,
+            fast, and willing to work with the industries other processors
+            won&apos;t.
+          </p>
+        </div>
+      </section>
 
-      <div className="mt-16 grid sm:grid-cols-3 gap-8">
-        {values.map((value) => (
-          <div key={value.title}>
-            <h3 className="font-heading font-semibold text-lg">
-              {value.title}
-            </h3>
-            <p className="mt-2 text-sm text-base-content/70">
-              {value.description}
+      <div className="max-w-4xl mx-auto px-4 lg:px-8 py-16">
+        <div className="grid sm:grid-cols-3 gap-6">
+          {values.map((value) => (
+            <div key={value.title} className="flex flex-col gap-3">
+              <div className="h-11 w-11 rounded-box bg-primary/10 text-primary flex items-center justify-center">
+                <value.icon className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />
+              </div>
+              <h3 className="font-heading font-semibold text-lg">
+                {value.title}
+              </h3>
+              <p className="text-sm text-base-content/70">
+                {value.description}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-20 card bg-base-200 border border-base-300 border-dashed">
+          <div className="card-body items-center text-center gap-3">
+            <Users className="h-8 w-8 text-base-content/40" aria-hidden="true" />
+            <h2 className="text-xl font-heading font-bold">Our Team</h2>
+            <p className="text-base-content/60 max-w-md">
+              {/* Placeholder — add real team bios/photos here. */}
+              Team bios and photos are coming soon. In the meantime, reach
+              out and you&apos;ll talk to a real person.
             </p>
+            <LeadModalTrigger source="about-team-cta" className="btn btn-outline btn-sm mt-2">
+              Contact Merchly
+            </LeadModalTrigger>
           </div>
-        ))}
-      </div>
-
-      <div className="mt-20">
-        <h2 className="text-2xl font-heading font-bold">Our Team</h2>
-        <p className="mt-3 text-base-content/70">
-          {/* Placeholder — add real team bios/photos here. */}
-          Team bios and photos coming soon.
-        </p>
+        </div>
       </div>
     </div>
   );

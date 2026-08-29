@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { X } from "lucide-react";
 import { LeadForm } from "@/components/marketing/LeadForm";
 import { useLeadModal } from "@/components/marketing/LeadModalContext";
 
@@ -32,15 +33,18 @@ export function LeadModal() {
             aria-label="Close"
             className="btn btn-sm btn-circle btn-ghost absolute right-3 top-3"
           >
-            ✕
+            <X className="h-4 w-4" aria-hidden="true" />
           </button>
         </form>
-        <h3 className="font-heading font-bold text-2xl">
-          Get Your Free Quote
+        <span className="badge badge-soft badge-primary badge-sm">
+          Free, no obligation
+        </span>
+        <h3 className="font-heading font-bold text-2xl mt-2">
+          Get your free quote
         </h3>
         <p className="text-sm text-base-content/70 mt-1">
           Tell us a bit about your business and a Merchly specialist will
-          follow up shortly.
+          follow up within one business day.
         </p>
         <div className="mt-6">
           {isOpen && <LeadForm source={source} showMessage={false} />}

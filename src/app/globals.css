@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 @plugin "daisyui" {
-  themes: merchly --default, merchlydark --prefersdark;
+  themes: merchly --default, merchlydark;
 }
 
 @plugin "daisyui/theme" {
@@ -54,7 +54,7 @@
 @plugin "daisyui/theme" {
   name: "merchlydark";
   default: false;
-  prefersdark: true;
+  prefersdark: false;
   color-scheme: dark;
 
   --color-base-100: #1c1c1f;

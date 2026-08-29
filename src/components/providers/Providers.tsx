@@ -8,7 +8,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <ThemeProvider
       attribute="data-theme"
-      themes={["merchly", "merchlydark"]}
+      themes={["light", "dark"]}
+      value={{ light: "merchly", dark: "merchlydark" }}
       defaultTheme="system"
       enableSystem
     >

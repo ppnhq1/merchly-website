@@ -22,6 +22,7 @@
     "@payloadcms/richtext-lexical": "^3.88.0",
     "@payloadcms/storage-s3": "^3.88.0",
     "graphql": "^16.14.2",
+    "lucide-react": "^1.35.0",
     "next": "16.3.3",
     "next-themes": "^0.4.6",
     "payload": "^3.88.0",

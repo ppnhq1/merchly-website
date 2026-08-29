@@ -4,13 +4,24 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { CheckCircle2 } from "lucide-react";
+
+const businessTypes = [
+  "Restaurant",
+  "Retail",
+  "E-commerce",
+  "High-risk",
+  "Other",
+] as const;
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required"),
   email: z.string().email("Enter a valid email"),
   phone: z.string().optional(),
   businessName: z.string().optional(),
+  businessType: z.string().optional(),
   message: z.string().optional(),
+  consent: z.boolean().refine((value) => value, "Consent is required"),
   companyWebsite: z.string().max(0).optional(), // honeypot
 });
 
@@ -58,89 +69,154 @@ export function LeadForm({
 
   if (status === "success") {
     return (
-      <div className="alert alert-success">
+      <div role="alert" className="alert alert-success">
+        <CheckCircle2 className="h-5 w-5" aria-hidden="true" />
         <span>Thanks — a member of our team will reach out shortly.</span>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
-      {/* Honeypot field, hidden from real users */}
-      <input
-        type="text"
-        tabIndex={-1}
-        autoComplete="off"
-        className="hidden"
-        {...register("companyWebsite")}
-      />
-
-      <div className="form-control">
+    <form onSubmit={handleSubmit(onSubmit)} noValidate>
+      <fieldset className="fieldset gap-1 px-0">
+        {/* Honeypot field, hidden from real users and assistive tech */}
         <input
           type="text"
-          placeholder="Full name"
-          className="input input-bordered w-full"
+          tabIndex={-1}
+          autoComplete="off"
+          aria-hidden="true"
+          aria-label="Leave this field blank"
+          className="hidden"
+          {...register("companyWebsite")}
+        />
+
+        <label className="label" htmlFor="lead-name">
+          Full name
+        </label>
+        <input
+          id="lead-name"
+          type="text"
+          required
+          placeholder="Jordan Rivera"
+          className={
+            errors.name ? "input validator input-error w-full" : "input validator w-full"
+          }
+          aria-invalid={!!errors.name}
           {...register("name")}
         />
         {errors.name && (
-          <span className="text-error text-sm mt-1">{errors.name.message}</span>
+          <p className="label text-error">{errors.name.message}</p>
         )}
-      </div>
 
-      <div className="form-control">
+        <label className="label mt-2" htmlFor="lead-email">
+          Work email
+        </label>
         <input
+          id="lead-email"
           type="email"
-          placeholder="Work email"
-          className="input input-bordered w-full"
+          required
+          placeholder="you@business.com"
+          className={
+            errors.email ? "input validator input-error w-full" : "input validator w-full"
+          }
+          aria-invalid={!!errors.email}
           {...register("email")}
         />
         {errors.email && (
-          <span className="text-error text-sm mt-1">{errors.email.message}</span>
+          <p className="label text-error">{errors.email.message}</p>
         )}
-      </div>
 
-      <div className="form-control">
+        <label className="label mt-2" htmlFor="lead-phone">
+          Phone <span className="text-base-content/50">(optional)</span>
+        </label>
         <input
+          id="lead-phone"
           type="tel"
-          placeholder="Phone (optional)"
-          className="input input-bordered w-full"
+          placeholder="(555) 555-0100"
+          className="input w-full"
           {...register("phone")}
         />
-      </div>
 
-      <div className="form-control">
+        <label className="label mt-2" htmlFor="lead-business">
+          Business name <span className="text-base-content/50">(optional)</span>
+        </label>
         <input
+          id="lead-business"
           type="text"
-          placeholder="Business name (optional)"
-          className="input input-bordered w-full"
+          placeholder="Acme Co."
+          className="input w-full"
           {...register("businessName")}
         />
-      </div>
 
-      {showMessage && (
-        <div className="form-control">
-          <textarea
-            placeholder="Tell us about your business (optional)"
-            className="textarea textarea-bordered w-full"
-            rows={3}
-            {...register("message")}
+        <label className="label mt-2" htmlFor="lead-business-type">
+          Business type <span className="text-base-content/50">(optional)</span>
+        </label>
+        <select
+          id="lead-business-type"
+          className="select w-full"
+          defaultValue=""
+          {...register("businessType")}
+        >
+          <option value="" disabled>
+            Choose one
+          </option>
+          {businessTypes.map((type) => (
+            <option key={type} value={type}>
+              {type}
+            </option>
+          ))}
+        </select>
+
+        {showMessage && (
+          <>
+            <label className="label mt-2" htmlFor="lead-message">
+              Tell us about your business{" "}
+              <span className="text-base-content/50">(optional)</span>
+            </label>
+            <textarea
+              id="lead-message"
+              placeholder="What you sell, roughly how much you process monthly, and any timeline"
+              className="textarea w-full"
+              rows={3}
+              {...register("message")}
+            />
+          </>
+        )}
+
+        <label className="label mt-3 items-start gap-2">
+          <input
+            type="checkbox"
+            className="checkbox checkbox-sm mt-0.5"
+            {...register("consent")}
           />
-        </div>
-      )}
+          <span>
+            I agree to be contacted by Merchly about my quote by phone,
+            email, or text.
+          </span>
+        </label>
+        {errors.consent && (
+          <p className="label text-error">{errors.consent.message}</p>
+        )}
 
-      <button
-        type="submit"
-        className="btn btn-primary"
-        disabled={status === "loading"}
-      >
-        {status === "loading" ? "Sending..." : submitLabel}
-      </button>
+        <button
+          type="submit"
+          className="btn btn-primary btn-sm mt-4"
+          disabled={status === "loading"}
+        >
+          {status === "loading" && (
+            <span className="loading loading-spinner loading-xs" />
+          )}
+          {status === "loading" ? "Sending..." : submitLabel}
+        </button>
 
-      {status === "error" && (
-        <span className="text-error text-sm">
-          Something went wrong. Please try again.
-        </span>
-      )}
+        {status === "error" && (
+          <div role="alert" className="alert alert-error alert-soft mt-2 py-2">
+            <span className="text-sm">
+              Something went wrong. Please try again.
+            </span>
+          </div>
+        )}
+      </fieldset>
     </form>
   );
 }

@@ -33,13 +33,15 @@ export default async function BlogCategoryPage({
   if (posts.length === 0) notFound();
 
   return (
-    <div className="max-w-5xl mx-auto px-4 lg:px-8 py-20">
-      <p className="text-sm text-base-content/50">
-        <Link href="/blog" className="link link-hover">
-          Blog
-        </Link>{" "}
-        / {categoryName}
-      </p>
+    <div className="max-w-5xl mx-auto px-4 lg:px-8 py-16 sm:py-20">
+      <div className="breadcrumbs text-sm text-base-content/50">
+        <ul>
+          <li>
+            <Link href="/blog">Blog</Link>
+          </li>
+          <li>{categoryName}</li>
+        </ul>
+      </div>
       <h1 className="mt-2 text-4xl font-heading font-bold">{categoryName}</h1>
 
       <div className="mt-12 grid sm:grid-cols-2 gap-6">
