@@ -63,13 +63,26 @@ const feeRowNormalClass =
 const feeRowStruckClass =
   "flex items-center justify-between gap-3 text-base text-base-content/35 line-through decoration-2 motion-safe:transition-colors motion-safe:duration-500";
 
+// The badge label is two lines stacked in a flex-col track, clipped by the
+// badge's own height (24px, daisyUI's default badge size). Shifting the
+// track by -50% of its own (2-line) height moves exactly one line — a
+// clean vertical scroll-swap instead of an instant text replacement.
+const cardLabelTrackRestClass =
+  "flex flex-col self-start translate-y-0 motion-safe:transition-transform motion-safe:duration-500 motion-safe:ease-in-out";
+const cardLabelTrackShiftedClass =
+  "flex flex-col self-start -translate-y-1/2 motion-safe:transition-transform motion-safe:duration-500 motion-safe:ease-in-out";
+
 // Aura only shows as a thin ring where it isn't covered by an opaque
 // surface — this needs its own bg-base-100 or the gold gradient fills the
-// whole box behind the text instead of just glowing at the edges.
+// whole box behind the text instead of just glowing at the edges. The
+// small scale change (95% -> 100%) gives the reveal a distinct settle-in
+// feel and, since CSS transitions run in reverse automatically, the same
+// pair also gives the exit a clean shrink-and-fade instead of an
+// instant disappearance.
 const rateHiddenClass =
-  "flex items-center justify-between gap-3 rounded-box bg-base-100 px-3 py-2 translate-y-2 opacity-0 motion-safe:transition motion-safe:duration-500 motion-safe:ease-out";
+  "flex items-center justify-between gap-3 rounded-box bg-base-100 px-3 py-2 translate-y-2 scale-95 opacity-0 motion-safe:transition motion-safe:duration-500 motion-safe:ease-out";
 const rateRevealedClass =
-  "flex items-center justify-between gap-3 rounded-box bg-base-100 px-3 py-2 translate-y-0 opacity-100 motion-safe:transition motion-safe:duration-500 motion-safe:ease-out";
+  "flex items-center justify-between gap-3 rounded-box bg-base-100 px-3 py-2 translate-y-0 scale-100 opacity-100 motion-safe:transition motion-safe:duration-500 motion-safe:ease-out";
 
 const rateWrapperInactiveClass = "mt-4 w-full";
 const rateWrapperActiveClass = "mt-4 aura aura-gold w-full";
@@ -197,10 +210,19 @@ export function Hero({ industries }: { industries: Industry[] }) {
         <div className={mounted ? previewRevealedClass : previewHiddenClass}>
           <div className="card card-lg bg-base-100 border border-base-300 shadow-xl">
             <div className="card-body">
-              <span className="badge badge-soft badge-secondary w-fit">
-                {showRate
-                  ? "What you pay with Merchly"
-                  : "What you're currently paying"}
+              <span className="badge badge-soft badge-secondary w-fit h-6 overflow-hidden px-3">
+                <span
+                  className={
+                    showRate ? cardLabelTrackShiftedClass : cardLabelTrackRestClass
+                  }
+                >
+                  <span className="flex h-6 items-center whitespace-nowrap">
+                    What you&apos;re currently paying
+                  </span>
+                  <span className="flex h-6 items-center whitespace-nowrap">
+                    What you pay with Merchly
+                  </span>
+                </span>
               </span>
 
               <ul className="mt-4 flex flex-col gap-2.5">
