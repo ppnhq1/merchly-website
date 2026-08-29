@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { CheckCircle2 } from "lucide-react";
+import { formatUsPhoneInput } from "@/lib/phone";
 
 const businessTypes = [
   "Restaurant",
@@ -46,6 +47,7 @@ export function LeadForm({
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -132,9 +134,15 @@ export function LeadForm({
         <input
           id="lead-phone"
           type="tel"
+          inputMode="tel"
           placeholder="(555) 555-0100"
+          maxLength={14}
           className="input w-full"
-          {...register("phone")}
+          {...register("phone", {
+            onChange: (event) => {
+              setValue("phone", formatUsPhoneInput(event.target.value));
+            },
+          })}
         />
 
         <label className="label mt-2" htmlFor="lead-business">

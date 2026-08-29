@@ -1,12 +1,117 @@
-import { Store, Landmark, ActivitySquare, Headset } from "lucide-react";
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import {
+  Store,
+  Landmark,
+  ActivitySquare,
+  Headset,
+  type LucideIcon,
+} from "lucide-react";
 
 // TODO: replace placeholder figures with real company stats before launch.
-const stats = [
-  { value: "10,000+", label: "Merchants served", icon: Store },
-  { value: "$2B+", label: "Processed annually", icon: Landmark },
-  { value: "99.99%", label: "Platform uptime", icon: ActivitySquare },
-  { value: "24/7", label: "US-based support", icon: Headset },
+type Stat =
+  | {
+      type: "count";
+      target: number;
+      decimals?: number;
+      prefix?: string;
+      suffix?: string;
+      label: string;
+      icon: LucideIcon;
+    }
+  | { type: "static"; value: string; label: string; icon: LucideIcon };
+
+const stats: Stat[] = [
+  { type: "count", target: 10000, suffix: "+", label: "Merchants served", icon: Store },
+  {
+    type: "count",
+    target: 2,
+    prefix: "$",
+    suffix: "B+",
+    label: "Processed annually",
+    icon: Landmark,
+  },
+  {
+    type: "count",
+    target: 99.99,
+    decimals: 2,
+    suffix: "%",
+    label: "Platform uptime",
+    icon: ActivitySquare,
+  },
+  { type: "static", value: "24/7", label: "US-based support", icon: Headset },
 ];
+
+const COUNT_DURATION_MS = 1800;
+
+function formatCount(value: number, decimals: number) {
+  return value.toLocaleString("en-US", {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+  });
+}
+
+function CountUpValue({
+  target,
+  decimals = 0,
+  prefix = "",
+  suffix = "",
+}: {
+  target: number;
+  decimals?: number;
+  prefix?: string;
+  suffix?: string;
+}) {
+  const [display, setDisplay] = useState(0);
+  const ref = useRef<HTMLDivElement>(null);
+  const started = useRef(false);
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    const runCount = () => {
+      if (started.current) return;
+      started.current = true;
+
+      if (prefersReducedMotion) {
+        setDisplay(target);
+        return;
+      }
+
+      const startTime = performance.now();
+      const tick = (now: number) => {
+        const progress = Math.min((now - startTime) / COUNT_DURATION_MS, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        setDisplay(target * eased);
+        if (progress < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) runCount();
+      },
+      { threshold: 0.4 },
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [target]);
+
+  return (
+    <div ref={ref} className="stat-value font-heading text-3xl sm:text-4xl tabular-nums">
+      {prefix}
+      {formatCount(display, decimals)}
+      {suffix}
+    </div>
+  );
+}
 
 export function StatsBar() {
   return (
@@ -18,9 +123,18 @@ export function StatsBar() {
               <div className="stat-figure text-primary">
                 <stat.icon className="h-6 w-6" strokeWidth={1.75} aria-hidden="true" />
               </div>
-              <div className="stat-value font-heading text-3xl sm:text-4xl tabular-nums">
-                {stat.value}
-              </div>
+              {stat.type === "count" ? (
+                <CountUpValue
+                  target={stat.target}
+                  decimals={stat.decimals}
+                  prefix={stat.prefix}
+                  suffix={stat.suffix}
+                />
+              ) : (
+                <div className="stat-value font-heading text-3xl sm:text-4xl tabular-nums">
+                  {stat.value}
+                </div>
+              )}
               <div className="stat-desc text-neutral-content/70 text-sm mt-1">
                 {stat.label}
               </div>

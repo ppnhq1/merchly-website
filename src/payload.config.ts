@@ -9,6 +9,13 @@ import sharp from "sharp";
 import { Users } from "@/collections/Users";
 import { Media } from "@/collections/Media";
 import { Posts } from "@/collections/Posts";
+import { Industries } from "@/collections/Industries";
+import { HighRiskNiches } from "@/collections/HighRiskNiches";
+import { Solutions } from "@/collections/Solutions";
+import { Integrations } from "@/collections/Integrations";
+import { Comparisons } from "@/collections/Comparisons";
+import { Resources } from "@/collections/Resources";
+import { Pricing } from "@/globals/Pricing";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -17,7 +24,18 @@ export default buildConfig({
   admin: {
     user: Users.slug,
   },
-  collections: [Users, Media, Posts],
+  collections: [
+    Users,
+    Media,
+    Posts,
+    Industries,
+    HighRiskNiches,
+    Solutions,
+    Integrations,
+    Comparisons,
+    Resources,
+  ],
+  globals: [Pricing],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",
   typescript: {

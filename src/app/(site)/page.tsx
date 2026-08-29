@@ -4,16 +4,11 @@ import { Hero } from "@/components/marketing/Hero";
 import { RateCalculator } from "@/components/marketing/RateCalculator";
 import { BenefitsSection } from "@/components/marketing/BenefitsSection";
 import { StatsBar } from "@/components/marketing/StatsBar";
+import { HowItWorksSteps } from "@/components/marketing/HowItWorksSteps";
 import { TestimonialsSection } from "@/components/marketing/TestimonialsSection";
 import { LeadModalTrigger } from "@/components/marketing/LeadModalTrigger";
-import { industries } from "@/lib/industries";
+import { getIndustries, getIndustryBySlug } from "@/lib/industries";
 import { getAllPosts } from "@/lib/posts";
-
-const onboardingSteps = [
-  { label: "Apply", detail: "5-minute application, no cost to submit" },
-  { label: "Get approved", detail: "Underwriting in as little as 24 hours" },
-  { label: "Start accepting payments", detail: "Terminal or gateway shipped and configured" },
-];
 
 const faqs = [
   {
@@ -39,12 +34,24 @@ const faqs = [
 ];
 
 export default async function HomePage() {
-  const recentPosts = (await getAllPosts()).slice(0, 3);
-  const [restaurants, retail, ecommerce, highRisk] = industries;
+  const [recentPostsAll, industries, restaurants, retail, ecommerce, highRisk] =
+    await Promise.all([
+      getAllPosts(),
+      getIndustries(),
+      getIndustryBySlug("restaurants"),
+      getIndustryBySlug("retail"),
+      getIndustryBySlug("e-commerce"),
+      getIndustryBySlug("high-risk"),
+    ]);
+  const recentPosts = recentPostsAll.slice(0, 3);
+
+  if (!restaurants || !retail || !ecommerce || !highRisk) {
+    throw new Error("Expected seed industries (restaurants, retail, e-commerce, high-risk) to exist.");
+  }
 
   return (
     <>
-      <Hero />
+      <Hero industries={industries} />
 
       <StatsBar />
 
@@ -79,16 +86,7 @@ export default async function HomePage() {
               live within a week.
             </p>
           </div>
-          <ul className="steps steps-vertical lg:steps-horizontal w-full mt-12">
-            {onboardingSteps.map((step, index) => (
-              <li key={step.label} className="step" data-content={index + 1}>
-                <div className="text-left ml-2 mt-2 lg:text-center lg:ml-0">
-                  <div className="font-heading font-semibold">{step.label}</div>
-                  <div className="text-sm text-base-content/60">{step.detail}</div>
-                </div>
-              </li>
-            ))}
-          </ul>
+          <HowItWorksSteps />
         </div>
       </section>
 

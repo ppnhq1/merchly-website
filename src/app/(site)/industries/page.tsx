@@ -1,40 +1,21 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import {
-  UtensilsCrossed,
-  ShoppingBag,
-  Globe,
-  ShieldAlert,
-  Leaf,
-  Lock,
-  TriangleAlert,
-  Repeat,
-  ArrowRight,
-  type LucideIcon,
-} from "lucide-react";
-import { highRiskNiches, industries } from "@/lib/industries";
+import { ArrowRight } from "lucide-react";
+import { getHighRiskNiches, getIndustries } from "@/lib/industries";
+import { resolveIcon } from "@/lib/resolve-icon";
 
 export const metadata: Metadata = {
   title: "Industries We Serve",
   description:
-    "Merchly provides specialized merchant services across restaurants, retail, e-commerce, and high-risk industries.",
+    "Merchly provides specialized merchant services across restaurants, retail, e-commerce, and dozens of standard and high-risk industries.",
 };
 
-const industryIcons: Record<string, LucideIcon> = {
-  restaurants: UtensilsCrossed,
-  retail: ShoppingBag,
-  "e-commerce": Globe,
-  "high-risk": ShieldAlert,
-};
+export default async function IndustriesPage() {
+  const [industries, highRiskNiches] = await Promise.all([
+    getIndustries(),
+    getHighRiskNiches(),
+  ]);
 
-const highRiskIcons: Record<string, LucideIcon> = {
-  "cbd-nutraceuticals": Leaf,
-  "adult-entertainment": Lock,
-  "vape-tobacco-firearms": TriangleAlert,
-  "subscription-mlm-dating": Repeat,
-};
-
-export default function IndustriesPage() {
   return (
     <div>
       <section className="bg-base-200">
@@ -50,7 +31,7 @@ export default function IndustriesPage() {
       <div className="max-w-6xl mx-auto px-4 lg:px-8 py-20">
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {industries.map((industry) => {
-            const Icon = industryIcons[industry.slug] ?? Globe;
+            const Icon = resolveIcon(industry.icon);
             return (
               <Link
                 key={industry.slug}
@@ -86,7 +67,7 @@ export default function IndustriesPage() {
           </div>
           <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {highRiskNiches.map((niche) => {
-              const Icon = highRiskIcons[niche.slug] ?? ShieldAlert;
+              const Icon = resolveIcon(niche.icon);
               return (
                 <Link
                   key={niche.slug}

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { LeadModalTrigger } from "@/components/marketing/LeadModalTrigger";
-import { industries } from "@/lib/industries";
+import type { Industry } from "@/lib/industries";
 
 const trustPoints = [
   "Transparent, interchange-level pricing",
@@ -83,7 +83,7 @@ const FEE_REVEAL_STEP_MS = 900;
 const RATE_REVEAL_DELAY_MS = 500;
 const RATE_HOLD_MS = 4500;
 
-export function Hero() {
+export function Hero({ industries }: { industries: Industry[] }) {
   const [mounted, setMounted] = useState(false);
   const [revealedCount, setRevealedCount] = useState(0);
   const [showRate, setShowRate] = useState(false);

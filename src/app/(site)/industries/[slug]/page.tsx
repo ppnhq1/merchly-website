@@ -3,13 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import { LeadModalTrigger } from "@/components/marketing/LeadModalTrigger";
-import { getIndustryBySlug, highRiskNiches, industries } from "@/lib/industries";
+import { getHighRiskNiches, getIndustryBySlug } from "@/lib/industries";
 
 type Params = { slug: string };
-
-export function generateStaticParams() {
-  return industries.map((industry) => ({ slug: industry.slug }));
-}
 
 export async function generateMetadata({
   params,
@@ -17,7 +13,7 @@ export async function generateMetadata({
   params: Promise<Params>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const industry = getIndustryBySlug(slug);
+  const industry = await getIndustryBySlug(slug);
   if (!industry) return {};
   return {
     title: industry.name,
@@ -31,10 +27,11 @@ export default async function IndustryPage({
   params: Promise<Params>;
 }) {
   const { slug } = await params;
-  const industry = getIndustryBySlug(slug);
+  const industry = await getIndustryBySlug(slug);
   if (!industry) notFound();
 
   const isHighRisk = slug === "high-risk";
+  const highRiskNiches = isHighRisk ? await getHighRiskNiches() : [];
 
   return (
     <div>

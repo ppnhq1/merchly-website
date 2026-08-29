@@ -1,10 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ShieldCheck } from "lucide-react";
-import { highRiskNiches, industries } from "@/lib/industries";
+import { getHighRiskNiches, getIndustries } from "@/lib/industries";
 import { LeadModalTrigger } from "@/components/marketing/LeadModalTrigger";
 
-export function SiteFooter() {
+export async function SiteFooter() {
+  const [industries, highRiskNiches] = await Promise.all([
+    getIndustries(),
+    getHighRiskNiches(),
+  ]);
+
   return (
     <footer className="bg-neutral text-neutral-content mt-24">
       <div className="max-w-6xl mx-auto px-4 lg:px-8 pt-16 pb-10">
@@ -72,17 +77,23 @@ export function SiteFooter() {
       </div>
 
       <div className="border-t border-neutral-content/10">
-        <div className="max-w-6xl mx-auto px-4 lg:px-8 py-6 flex flex-col sm:flex-row justify-between items-center gap-2 text-sm text-neutral-content/60">
-          <span>
-            &copy; {new Date().getFullYear()} Merchly. All rights reserved.
-          </span>
-          <div className="flex gap-4">
-            <Link href="/privacy-policy" className="link link-hover">
-              Privacy Policy
-            </Link>
-            <Link href="/terms-of-service" className="link link-hover">
-              Terms of Service
-            </Link>
+        <div className="max-w-6xl mx-auto px-4 lg:px-8 py-6 flex flex-col gap-4">
+          <p className="text-xs text-neutral-content/50 max-w-3xl">
+            Karma Holdings LLC, DBA, Merchly, is a registered Independent
+            Sales Organization of Commercial Bank of California (Irvine, CA).
+          </p>
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-2 text-sm text-neutral-content/60">
+            <span>
+              &copy; {new Date().getFullYear()} Merchly. All rights reserved.
+            </span>
+            <div className="flex gap-4">
+              <Link href="/privacy-policy" className="link link-hover">
+                Privacy Policy
+              </Link>
+              <Link href="/terms-of-service" className="link link-hover">
+                Terms of Service
+              </Link>
+            </div>
           </div>
         </div>
       </div>
