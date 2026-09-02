@@ -1,4 +1,5 @@
 import type { CollectionConfig } from "payload";
+import { adminOnly, publicRead } from "@/lib/access";
 
 export const Comparisons: CollectionConfig = {
   slug: "comparisons",
@@ -14,7 +15,10 @@ export const Comparisons: CollectionConfig = {
       "Head-to-head pages shown in the header's Compare menu and on /compare. Keep claims about competitors general and verify them before publishing — see the disclaimer shown on every comparison page.",
   },
   access: {
-    read: () => true,
+    read: publicRead,
+    create: adminOnly,
+    update: adminOnly,
+    delete: adminOnly,
   },
   fields: [
     {

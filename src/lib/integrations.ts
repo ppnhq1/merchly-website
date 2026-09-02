@@ -14,6 +14,7 @@ export type Integration = {
   tagline: string;
   summary: string;
   icon: string;
+  updatedAt?: string;
 };
 
 export async function getIntegrations(): Promise<Integration[]> {

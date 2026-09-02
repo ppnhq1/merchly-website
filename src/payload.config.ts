@@ -20,9 +20,28 @@ import { Pricing } from "@/globals/Pricing";
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
+// Explicit trusted-origin allowlist for CSRF and CORS — no wildcard. Includes
+// the production domain, its www variant, local dev, and (when present) the
+// current Vercel deployment URL for preview builds.
+const trustedOrigins = [
+  "https://merchly.com",
+  "https://www.merchly.com",
+  "http://localhost:3000",
+  process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : undefined,
+].filter((origin): origin is string => Boolean(origin));
+
 export default buildConfig({
   admin: {
     user: Users.slug,
+  },
+  csrf: trustedOrigins,
+  cors: trustedOrigins,
+  upload: {
+    limits: {
+      // Global cap on any single uploaded file (Media is the only upload
+      // collection today) to prevent storage/cost abuse via oversized files.
+      fileSize: 8 * 1024 * 1024, // 8MB
+    },
   },
   collections: [
     Users,
@@ -45,6 +64,13 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URL,
     },
+    // Dev mode otherwise auto-pushes schema diffs on every `next dev` start.
+    // That mechanism only knows about Payload-declared tables, so it treats
+    // rate_limit_hits (a plain table used by src/lib/rate-limit.ts, outside
+    // Payload's schema) as an orphan to drop — it will prompt to delete it
+    // (with real data loss) on every single dev boot. Schema changes go
+    // through explicit, reviewed SQL/migrations instead (see project notes).
+    push: false,
   }),
   sharp,
   plugins: [

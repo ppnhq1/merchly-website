@@ -1,5 +1,7 @@
 import type { CollectionConfig } from "payload";
 import { ICON_OPTIONS } from "@/lib/icon-options";
+import { adminOnly, publicRead } from "@/lib/access";
+import { industryDetailFields } from "@/collections/shared/industryDetailFields";
 
 export const HighRiskNiches: CollectionConfig = {
   slug: "high-risk-niches",
@@ -15,7 +17,10 @@ export const HighRiskNiches: CollectionConfig = {
       "High-risk specialties shown in the header's Industries menu and on /industries/high-risk.",
   },
   access: {
-    read: () => true,
+    read: publicRead,
+    create: adminOnly,
+    update: adminOnly,
+    delete: adminOnly,
   },
   fields: [
     {
@@ -58,5 +63,6 @@ export const HighRiskNiches: CollectionConfig = {
         description: "Lower numbers appear first in menus and grids.",
       },
     },
+    ...industryDetailFields(),
   ],
 };

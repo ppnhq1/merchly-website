@@ -7,17 +7,30 @@ import {
 } from "@/lib/brevo";
 import { sendWelcomeText } from "@/lib/bulkvs";
 import { normalizeUsPhoneToE164 } from "@/lib/phone";
+import { verifyRecaptcha } from "@/lib/recaptcha";
+import { TIME_IN_BUSINESS_VALUES } from "@/lib/time-in-business";
 
 const leadSchema = z.object({
-  name: z.string().min(1).max(200),
+  firstName: z.string().min(1).max(100),
+  lastName: z.string().min(1).max(100),
   email: z.string().email(),
-  phone: z.string().max(50).optional(),
-  businessName: z.string().max(200).optional(),
-  businessType: z.string().max(100).optional(),
+  // Required, and must actually normalize to a valid 10-digit US number —
+  // reuses the same normalizer the request already needs downstream rather
+  // than duplicating a separate format regex.
+  phone: z
+    .string()
+    .max(50)
+    .refine((value) => normalizeUsPhoneToE164(value) !== null, "Enter a valid phone number"),
   message: z.string().max(2000).optional(),
+  // Required. z.enum's built-in "no undefined/other value" rejection is
+  // exactly what we want now — the client always sends one of the real
+  // option values because the field is enforced there too (see
+  // HeroLeadForm.tsx / LeadForm.tsx).
+  timeInBusiness: z.enum(TIME_IN_BUSINESS_VALUES),
   source: z.string().min(1).max(100),
   // Honeypot field: real users never fill this in.
   companyWebsite: z.string().max(0).optional(),
+  recaptchaToken: z.string().optional(),
 });
 
 export async function POST(request: NextRequest) {
@@ -31,19 +44,30 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const { companyWebsite, ...rest } = parsed.data;
+  const { companyWebsite, recaptchaToken, ...rest } = parsed.data;
   if (companyWebsite) {
     // Silently accept bot submissions without processing them.
     return NextResponse.json({ ok: true });
   }
 
+  const isHuman = await verifyRecaptcha(recaptchaToken, "lead_form");
+  if (!isHuman) {
+    return NextResponse.json(
+      { error: "Verification failed. Please try again." },
+      { status: 400 },
+    );
+  }
+
   // Store and forward phone numbers in the canonical "1XXXXXXXXXX" format —
   // the one shape every downstream consumer (Brevo, BulkVS) can rely on.
-  // An unparseable number is dropped rather than blocking the submission,
-  // since phone is optional.
+  // The schema's refine() above already guarantees this normalizes cleanly.
+  // `name` is derived once here so every downstream consumer that just wants
+  // a display name (email subject lines, etc.) doesn't need to know about
+  // firstName/lastName.
   const lead = {
     ...rest,
-    phone: rest.phone ? (normalizeUsPhoneToE164(rest.phone) ?? undefined) : undefined,
+    name: `${rest.firstName.trim()} ${rest.lastName.trim()}`.trim(),
+    phone: normalizeUsPhoneToE164(rest.phone) as string,
   };
 
   try {
@@ -53,7 +77,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error("Lead submission failed", error);
     return NextResponse.json(
-      { error: "Something went wrong. Please try again." },
+      { error: "We couldn't send your notification email. Please try again or contact us directly." },
       { status: 502 },
     );
   }

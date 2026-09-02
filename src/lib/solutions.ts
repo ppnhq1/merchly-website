@@ -8,6 +8,7 @@ export type Solution = {
   tagline: string;
   summary: string;
   icon: string;
+  updatedAt?: string;
 };
 
 export async function getSolutions(): Promise<Solution[]> {

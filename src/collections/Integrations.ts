@@ -1,5 +1,6 @@
 import type { CollectionConfig } from "payload";
 import { ICON_OPTIONS } from "@/lib/icon-options";
+import { adminOnly, publicRead } from "@/lib/access";
 
 export const Integrations: CollectionConfig = {
   slug: "integrations",
@@ -15,7 +16,10 @@ export const Integrations: CollectionConfig = {
       "Platforms shown in the header's Integrations menu and on /integrations — Shopify, QuickBooks, etc.",
   },
   access: {
-    read: () => true,
+    read: publicRead,
+    create: adminOnly,
+    update: adminOnly,
+    delete: adminOnly,
   },
   fields: [
     {
