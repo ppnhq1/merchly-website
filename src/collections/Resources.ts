@@ -1,4 +1,5 @@
 import type { CollectionConfig } from "payload";
+import { adminOnly, publicRead } from "@/lib/access";
 
 export const Resources: CollectionConfig = {
   slug: "resources",
@@ -14,7 +15,10 @@ export const Resources: CollectionConfig = {
       "Evergreen guides shown in the header's Resources menu and on /resources — distinct from the dated Blog posts.",
   },
   access: {
-    read: () => true,
+    read: publicRead,
+    create: adminOnly,
+    update: adminOnly,
+    delete: adminOnly,
   },
   fields: [
     {

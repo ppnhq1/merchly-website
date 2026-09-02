@@ -13,6 +13,7 @@ export type Resource = {
   description: string;
   intro: string;
   sections: ResourceSection[];
+  updatedAt?: string;
 };
 
 export async function getResources(): Promise<Resource[]> {

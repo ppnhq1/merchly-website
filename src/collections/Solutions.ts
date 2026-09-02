@@ -1,5 +1,6 @@
 import type { CollectionConfig } from "payload";
 import { ICON_OPTIONS } from "@/lib/icon-options";
+import { adminOnly, publicRead } from "@/lib/access";
 
 export const Solutions: CollectionConfig = {
   slug: "solutions",
@@ -15,7 +16,10 @@ export const Solutions: CollectionConfig = {
       "Payment types shown in the header's Solutions menu and on /solutions — in-person, online, ACH, etc.",
   },
   access: {
-    read: () => true,
+    read: publicRead,
+    create: adminOnly,
+    update: adminOnly,
+    delete: adminOnly,
   },
   fields: [
     {

@@ -14,6 +14,7 @@ export type Comparison = {
   tagline: string;
   summary: string;
   points: ComparePoint[];
+  updatedAt?: string;
 };
 
 export async function getComparisons(): Promise<Comparison[]> {

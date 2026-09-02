@@ -1,4 +1,5 @@
 import type { GlobalConfig } from "payload";
+import { adminOnly, publicRead } from "@/lib/access";
 
 export const Pricing: GlobalConfig = {
   slug: "pricing",
@@ -7,7 +8,8 @@ export const Pricing: GlobalConfig = {
     description: "Content for the single /pricing page.",
   },
   access: {
-    read: () => true,
+    read: publicRead,
+    update: adminOnly,
   },
   fields: [
     {

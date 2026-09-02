@@ -1,5 +1,7 @@
 import type { CollectionConfig } from "payload";
 import { ICON_OPTIONS } from "@/lib/icon-options";
+import { adminOnly, publicRead } from "@/lib/access";
+import { industryDetailFields } from "@/collections/shared/industryDetailFields";
 
 export const Industries: CollectionConfig = {
   slug: "industries",
@@ -15,7 +17,10 @@ export const Industries: CollectionConfig = {
       "Standard business verticals shown in the header's Industries menu and on /industries. The entry with slug \"high-risk\" is the umbrella page that links out to High-Risk Specialties.",
   },
   access: {
-    read: () => true,
+    read: publicRead,
+    create: adminOnly,
+    update: adminOnly,
+    delete: adminOnly,
   },
   fields: [
     {
@@ -67,5 +72,6 @@ export const Industries: CollectionConfig = {
         description: "Lower numbers appear first in menus and grids.",
       },
     },
+    ...industryDetailFields(),
   ],
 };

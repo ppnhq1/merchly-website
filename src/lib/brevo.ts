@@ -1,13 +1,21 @@
+import { TIME_IN_BUSINESS_OPTIONS } from "@/lib/time-in-business";
+
 const BREVO_API_URL = "https://api.brevo.com/v3";
 
 type LeadPayload = {
   name: string;
+  firstName: string;
+  lastName: string;
   email: string;
-  phone?: string;
-  businessName?: string;
+  phone: string;
   message?: string;
+  timeInBusiness: string;
   source: string;
 };
+
+function timeInBusinessLabel(value: string | undefined) {
+  return TIME_IN_BUSINESS_OPTIONS.find((option) => option.value === value)?.label ?? value;
+}
 
 function brevoHeaders() {
   const apiKey = process.env.BREVO_API_KEY;
@@ -41,8 +49,8 @@ export async function sendLeadNotification(lead: LeadPayload) {
         <p><strong>Source:</strong> ${lead.source}</p>
         <p><strong>Name:</strong> ${lead.name}</p>
         <p><strong>Email:</strong> ${lead.email}</p>
-        ${lead.phone ? `<p><strong>Phone:</strong> ${lead.phone}</p>` : ""}
-        ${lead.businessName ? `<p><strong>Business:</strong> ${lead.businessName}</p>` : ""}
+        <p><strong>Phone:</strong> ${lead.phone}</p>
+        <p><strong>Time in business:</strong> ${timeInBusinessLabel(lead.timeInBusiness)}</p>
         ${lead.message ? `<p><strong>Message:</strong> ${lead.message}</p>` : ""}
       `,
     }),
@@ -86,10 +94,6 @@ const faqs = [
       "Standard funding lands in your account in 1–2 business days. Next-day and same-day funding are available for qualifying merchants.",
   },
 ];
-
-function emailFirstName(fullName: string) {
-  return fullName.trim().split(/\s+/)[0] || "there";
-}
 
 export function buildWelcomeEmailHtml(lead: LeadPayload) {
   const stepsHtml = onboardingSteps
@@ -165,7 +169,7 @@ export function buildWelcomeEmailHtml(lead: LeadPayload) {
                   You're in
                 </p>
                 <h1 style="margin:0 0 12px;font-family:Arial,Helvetica,sans-serif;font-size:26px;line-height:1.3;color:#111827;">
-                  Welcome to Merchly, ${emailFirstName(lead.name)}.
+                  Welcome to Merchly, ${lead.firstName}.
                 </h1>
                 <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.6;color:#374151;">
                   Thanks for reaching out. A Merchly specialist will follow up within
@@ -263,8 +267,6 @@ export async function addLeadToBrevoList(lead: LeadPayload) {
   const listId = process.env.BREVO_LIST_ID;
   if (!listId) return; // list sync is optional
 
-  const [firstName, ...rest] = lead.name.split(" ");
-
   const response = await fetch(`${BREVO_API_URL}/contacts`, {
     method: "POST",
     headers: brevoHeaders(),
@@ -273,10 +275,9 @@ export async function addLeadToBrevoList(lead: LeadPayload) {
       listIds: [Number(listId)],
       updateEnabled: true,
       attributes: {
-        FIRSTNAME: firstName,
-        LASTNAME: rest.join(" "),
+        FIRSTNAME: lead.firstName,
+        LASTNAME: lead.lastName,
         SMS: lead.phone,
-        COMPANY: lead.businessName,
       },
     }),
   });

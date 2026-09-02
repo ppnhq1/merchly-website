@@ -1,4 +1,5 @@
 import type { CollectionConfig } from "payload";
+import { adminOnly, publicRead } from "@/lib/access";
 
 export const Posts: CollectionConfig = {
   slug: "posts",
@@ -7,7 +8,10 @@ export const Posts: CollectionConfig = {
     defaultColumns: ["title", "category", "publishedAt"],
   },
   access: {
-    read: () => true,
+    read: publicRead,
+    create: adminOnly,
+    update: adminOnly,
+    delete: adminOnly,
   },
   fields: [
     {
