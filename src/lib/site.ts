@@ -1,1 +1,1 @@
-export const SITE_URL = "https://merchly.com";
+export const SITE_URL = "https://merchly.io";

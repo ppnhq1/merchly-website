@@ -224,7 +224,7 @@ export function buildWelcomeEmailHtml(lead: LeadPayload) {
               <td style="padding:20px 32px;background:#f9fafb;border-top:1px solid #e5e7eb;">
                 <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#9ca3af;line-height:1.6;">
                   Merchly — Financial tools for modern business.<br />
-                  You're receiving this because you requested a quote at merchly.com.
+                  You're receiving this because you requested a quote at merchly.io.
                   Reply to this email anytime — a real person reads every message.
                 </p>
               </td>

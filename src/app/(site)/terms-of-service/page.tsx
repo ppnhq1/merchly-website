@@ -15,7 +15,7 @@ export default function TermsOfServicePage() {
         Last updated: {new Date().toLocaleDateString("en-US")}
       </p>
       <p>
-        These Terms of Service govern your use of merchly.com. By using this
+        These Terms of Service govern your use of merchly.io. By using this
         site, you agree to these terms.
       </p>
       <h2>Use of This Site</h2>
@@ -33,7 +33,7 @@ export default function TermsOfServicePage() {
         legal advice.
       </p>
       <h2>Contact Us</h2>
-      <p>Questions about these terms can be sent to hello@merchly.com.</p>
+      <p>Questions about these terms can be sent to hello@merchly.io.</p>
     </div>
   );
 }

@@ -24,8 +24,8 @@ const dirname = path.dirname(filename);
 // the production domain, its www variant, local dev, and (when present) the
 // current Vercel deployment URL for preview builds.
 const trustedOrigins = [
-  "https://merchly.com",
-  "https://www.merchly.com",
+  "https://merchly.io",
+  "https://www.merchly.io",
   "http://localhost:3000",
   process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : undefined,
 ].filter((origin): origin is string => Boolean(origin));

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 const contactDetails = [
-  { label: "Email", value: "hello@merchly.com", icon: Mail },
+  { label: "Email", value: "hello@merchly.io", icon: Mail },
   { label: "Phone", value: "(800) 555-0100", icon: Phone },
   { label: "Hours", value: "Mon–Fri, 8am–6pm ET", icon: Clock },
 ];
