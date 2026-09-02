@@ -15,6 +15,7 @@ import { Solutions } from "@/collections/Solutions";
 import { Integrations } from "@/collections/Integrations";
 import { Comparisons } from "@/collections/Comparisons";
 import { Resources } from "@/collections/Resources";
+import { Leads } from "@/collections/Leads";
 import { Pricing } from "@/globals/Pricing";
 
 const filename = fileURLToPath(import.meta.url);
@@ -53,6 +54,7 @@ export default buildConfig({
     Integrations,
     Comparisons,
     Resources,
+    Leads,
   ],
   globals: [Pricing],
   editor: lexicalEditor(),

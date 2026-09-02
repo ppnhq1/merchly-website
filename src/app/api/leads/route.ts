@@ -9,6 +9,7 @@ import { sendWelcomeText } from "@/lib/bulkvs";
 import { normalizeUsPhoneToE164 } from "@/lib/phone";
 import { verifyRecaptcha } from "@/lib/recaptcha";
 import { TIME_IN_BUSINESS_VALUES } from "@/lib/time-in-business";
+import { getPayloadClient } from "@/lib/payload";
 
 const leadSchema = z.object({
   firstName: z.string().min(1).max(100),
@@ -70,19 +71,33 @@ export async function POST(request: NextRequest) {
     phone: normalizeUsPhoneToE164(rest.phone) as string,
   };
 
+  // Persisting the lead is the one step that must succeed — a submission
+  // should never be lost just because Brevo/BulkVS is unreachable or
+  // misconfigured. Every notification below is best-effort follow-up.
   try {
-    // The internal team notification is the one step that must succeed —
-    // everything else is a best-effort follow-up to the lead themselves.
-    await sendLeadNotification(lead);
+    const payload = await getPayloadClient();
+    await payload.create({
+      collection: "leads",
+      data: {
+        firstName: rest.firstName,
+        lastName: rest.lastName,
+        email: rest.email,
+        phone: lead.phone,
+        timeInBusiness: rest.timeInBusiness,
+        message: rest.message,
+        source: rest.source,
+      },
+    });
   } catch (error) {
-    console.error("Lead submission failed", error);
+    console.error("Failed to save lead", error);
     return NextResponse.json(
-      { error: "We couldn't send your notification email. Please try again or contact us directly." },
+      { error: "We couldn't save your request. Please try again or contact us directly." },
       { status: 502 },
     );
   }
 
   const followUps = await Promise.allSettled([
+    sendLeadNotification(lead),
     addLeadToBrevoList(lead),
     sendWelcomeEmail(lead),
     sendWelcomeText(lead),
