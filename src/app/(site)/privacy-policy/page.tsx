@@ -17,7 +17,7 @@ export default function PrivacyPolicyPage() {
       <p>
         This Privacy Policy describes how Merchly (&ldquo;we,&rdquo;
         &ldquo;us,&rdquo; or &ldquo;our&rdquo;) collects, uses, and shares
-        information when you visit merchly.com or submit information through
+        information when you visit merchly.io or submit information through
         our contact forms.
       </p>
       <h2>Information We Collect</h2>
@@ -38,7 +38,7 @@ export default function PrivacyPolicyPage() {
         included in those emails, or by contacting us directly.
       </p>
       <h2>Contact Us</h2>
-      <p>Questions about this policy can be sent to hello@merchly.com.</p>
+      <p>Questions about this policy can be sent to hello@merchly.io.</p>
     </div>
   );
 }
