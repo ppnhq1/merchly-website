@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { RichText } from "@payloadcms/richtext-lexical/react";
-import { ArrowLeft } from "lucide-react";
+import { Icon } from "@/components/ui/AppIcon";
 import { getPostBySlug } from "@/lib/posts";
 
 type Params = { slug: string };
@@ -87,7 +87,7 @@ export default async function BlogPostPage({
 
       <div className="mt-12">
         <Link href="/blog" className="link link-primary inline-flex items-center gap-1">
-          <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+          <Icon icon="lucide:arrow-left" className="h-4 w-4" aria-hidden="true" />
           Back to all posts
         </Link>
       </div>

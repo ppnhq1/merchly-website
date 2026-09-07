@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { X } from "lucide-react";
+import { Icon } from "@/components/ui/AppIcon";
 import { LeadForm } from "@/components/marketing/LeadForm";
 import { useLeadModal } from "@/components/marketing/LeadModalContext";
 
@@ -33,7 +33,7 @@ export function LeadModal() {
             aria-label="Close"
             className="btn btn-sm btn-circle btn-ghost absolute right-3 top-3"
           >
-            <X className="h-4 w-4" aria-hidden="true" />
+            <Icon icon="lucide:x" className="h-4 w-4" aria-hidden="true" />
           </button>
         </form>
         <span className="badge badge-soft badge-primary badge-sm">

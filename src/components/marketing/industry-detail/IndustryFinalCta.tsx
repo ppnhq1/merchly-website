@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+import { Icon } from "@/components/ui/AppIcon";
 import { LeadModalTrigger } from "@/components/marketing/LeadModalTrigger";
 
 type IndustryFinalCtaProps = {
@@ -25,7 +25,7 @@ export function IndustryFinalCta({ finalCta, source }: IndustryFinalCtaProps) {
             className="btn btn-primary shrink-0 inline-flex items-center gap-1.5"
           >
             {finalCta?.ctaLabel || "Get My Free Quote"}
-            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            <Icon icon="lucide:arrow-right" className="h-4 w-4" aria-hidden="true" />
           </LeadModalTrigger>
         </div>
       </div>

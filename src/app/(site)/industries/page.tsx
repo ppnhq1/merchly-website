@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { Icon } from "@/components/ui/AppIcon";
 import { getHighRiskNiches, getIndustries } from "@/lib/industries";
 import { resolveIcon } from "@/lib/resolve-icon";
 
@@ -31,7 +31,7 @@ export default async function IndustriesPage() {
       <div className="max-w-6xl mx-auto px-4 lg:px-8 py-20">
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {industries.map((industry) => {
-            const Icon = resolveIcon(industry.icon);
+            const icon = resolveIcon(industry.icon);
             return (
               <Link
                 key={industry.slug}
@@ -40,7 +40,7 @@ export default async function IndustriesPage() {
               >
                 <div className="card-body">
                   <div className="h-11 w-11 mask mask-squircle bg-base-200 text-base-content/70 flex items-center justify-center">
-                    <Icon className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />
+                    <Icon icon={icon} className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />
                   </div>
                   <h2 className="card-title text-lg font-heading mt-2">
                     {industry.name}
@@ -67,7 +67,7 @@ export default async function IndustriesPage() {
           </div>
           <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {highRiskNiches.map((niche) => {
-              const Icon = resolveIcon(niche.icon);
+              const icon = resolveIcon(niche.icon);
               return (
                 <Link
                   key={niche.slug}
@@ -76,7 +76,7 @@ export default async function IndustriesPage() {
                 >
                   <div className="card-body">
                     <div className="h-10 w-10 mask mask-squircle bg-base-300 text-base-content flex items-center justify-center">
-                      <Icon className="h-4.5 w-4.5" strokeWidth={1.75} aria-hidden="true" />
+                      <Icon icon={icon} className="h-4.5 w-4.5" strokeWidth={1.75} aria-hidden="true" />
                     </div>
                     <h3 className="card-title text-base font-heading mt-2">
                       {niche.name}
@@ -101,7 +101,7 @@ export default async function IndustriesPage() {
               className="btn btn-primary shrink-0 inline-flex items-center gap-1"
             >
               Ask us directly
-              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              <Icon icon="lucide:arrow-right" className="h-4 w-4" aria-hidden="true" />
             </Link>
           </div>
         </div>

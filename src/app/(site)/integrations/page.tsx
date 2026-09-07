@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Plug } from "lucide-react";
+import { Icon } from "@/components/ui/AppIcon";
 import {
   getIntegrationsByCategory,
   type IntegrationCategory,
@@ -45,7 +45,7 @@ export default async function IntegrationsPage() {
               <h2 className="text-2xl font-heading font-bold">{category}</h2>
               <div className="mt-6 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {items.map((integration) => {
-                  const Icon = resolveIcon(integration.icon) ?? Plug;
+                  const icon = resolveIcon(integration.icon);
                   return (
                     <Link
                       key={integration.slug}
@@ -55,6 +55,7 @@ export default async function IntegrationsPage() {
                       <div className="card-body">
                         <div className="h-11 w-11 mask mask-squircle bg-base-200 text-base-content/70 flex items-center justify-center">
                           <Icon
+                            icon={icon}
                             className="h-5 w-5"
                             strokeWidth={1.75}
                             aria-hidden="true"
@@ -85,7 +86,7 @@ export default async function IntegrationsPage() {
               className="btn btn-primary shrink-0 inline-flex items-center gap-1"
             >
               Ask us directly
-              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              <Icon icon="lucide:arrow-right" className="h-4 w-4" aria-hidden="true" />
             </Link>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { EyeOff, Building2, PhoneCall, Users } from "lucide-react";
+import { Icon } from "@/components/ui/AppIcon";
 import { LeadModalTrigger } from "@/components/marketing/LeadModalTrigger";
 
 export const metadata: Metadata = {
@@ -13,19 +13,19 @@ const values = [
     title: "Transparency first",
     description:
       "No surprise fees, no fine print games. You'll always know exactly what you're paying and why.",
-    icon: EyeOff,
+    icon: "lucide:eye-off",
   },
   {
     title: "Built for every business",
     description:
       "From your neighborhood restaurant to high-risk e-commerce, we design processing around your industry's real needs.",
-    icon: Building2,
+    icon: "lucide:building-2",
   },
   {
     title: "Support that answers the phone",
     description:
       "Real people, US-based, available when a payment issue can't wait.",
-    icon: PhoneCall,
+    icon: "lucide:phone-call",
   },
 ];
 
@@ -52,7 +52,7 @@ export default function AboutUsPage() {
           {values.map((value) => (
             <div key={value.title} className="flex flex-col gap-3">
               <div className="h-11 w-11 rounded-box bg-primary/10 text-primary flex items-center justify-center">
-                <value.icon className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />
+                <Icon icon={value.icon} className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />
               </div>
               <h3 className="font-heading font-semibold text-lg">
                 {value.title}
@@ -66,7 +66,7 @@ export default function AboutUsPage() {
 
         <div className="mt-20 card bg-base-200 border border-base-300 border-dashed">
           <div className="card-body items-center text-center gap-3">
-            <Users className="h-8 w-8 text-base-content/40" aria-hidden="true" />
+            <Icon icon="lucide:users" className="h-8 w-8 text-base-content/40" aria-hidden="true" />
             <h2 className="text-xl font-heading font-bold">Our Team</h2>
             <p className="text-base-content/60 max-w-md">
               {/* Placeholder — add real team bios/photos here. */}

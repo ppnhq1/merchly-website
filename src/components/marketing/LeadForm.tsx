@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { CheckCircle2, User, Mail, Phone, CalendarClock } from "lucide-react";
+import { Icon } from "@/components/ui/AppIcon";
 import { formatUsPhoneInput, normalizeUsPhoneToE164 } from "@/lib/phone";
 import { getRecaptchaToken } from "@/lib/recaptcha-client";
 import { TIME_IN_BUSINESS_OPTIONS, TIME_IN_BUSINESS_VALUES } from "@/lib/time-in-business";
@@ -78,7 +78,7 @@ export function LeadForm({
   if (status === "success") {
     return (
       <div role="alert" className="alert alert-success">
-        <CheckCircle2 className="h-5 w-5" aria-hidden="true" />
+        <Icon icon="lucide:check-circle-2" className="h-5 w-5" aria-hidden="true" />
         <span>Thanks — a member of our team will reach out shortly.</span>
       </div>
     );
@@ -108,7 +108,7 @@ export function LeadForm({
                 errors.firstName ? "input input-error w-full" : "input w-full"
               }
             >
-              <User className="h-4 w-4 opacity-50 shrink-0" aria-hidden="true" />
+              <Icon icon="lucide:user" className="h-4 w-4 opacity-50 shrink-0" aria-hidden="true" />
               <input
                 id="lead-first-name"
                 type="text"
@@ -132,7 +132,7 @@ export function LeadForm({
                 errors.lastName ? "input input-error w-full" : "input w-full"
               }
             >
-              <User className="h-4 w-4 opacity-50 shrink-0" aria-hidden="true" />
+              <Icon icon="lucide:user" className="h-4 w-4 opacity-50 shrink-0" aria-hidden="true" />
               <input
                 id="lead-last-name"
                 type="text"
@@ -153,7 +153,7 @@ export function LeadForm({
           Work email
         </label>
         <label className={errors.email ? "input input-error w-full" : "input w-full"}>
-          <Mail className="h-4 w-4 opacity-50 shrink-0" aria-hidden="true" />
+          <Icon icon="lucide:mail" className="h-4 w-4 opacity-50 shrink-0" aria-hidden="true" />
           <input
             id="lead-email"
             type="email"
@@ -172,7 +172,7 @@ export function LeadForm({
           Phone
         </label>
         <label className={errors.phone ? "input input-error w-full" : "input w-full"}>
-          <Phone className="h-4 w-4 opacity-50 shrink-0" aria-hidden="true" />
+          <Icon icon="lucide:phone" className="h-4 w-4 opacity-50 shrink-0" aria-hidden="true" />
           <input
             id="lead-phone"
             type="tel"
@@ -197,7 +197,7 @@ export function LeadForm({
           Time in business
         </label>
         <label className={errors.timeInBusiness ? "select select-error w-full" : "select w-full"}>
-          <CalendarClock className="h-4 w-4 opacity-50 shrink-0" aria-hidden="true" />
+          <Icon icon="lucide:calendar-clock" className="h-4 w-4 opacity-50 shrink-0" aria-hidden="true" />
           <select
             id="lead-time-in-business"
             className="grow min-w-0"

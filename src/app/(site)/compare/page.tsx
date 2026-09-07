@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, GitCompareArrows } from "lucide-react";
+import { Icon } from "@/components/ui/AppIcon";
 import { getComparisons } from "@/lib/compare";
 
 export const metadata: Metadata = {
@@ -34,7 +34,8 @@ export default async function ComparePage() {
             >
               <div className="card-body">
                 <div className="h-11 w-11 mask mask-squircle bg-base-200 text-base-content/70 flex items-center justify-center">
-                  <GitCompareArrows
+                  <Icon
+                    icon="lucide:git-compare-arrows"
                     className="h-5 w-5"
                     strokeWidth={1.75}
                     aria-hidden="true"
@@ -67,7 +68,7 @@ export default async function ComparePage() {
               className="btn btn-primary shrink-0 inline-flex items-center gap-1"
             >
               Calculate your savings
-              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              <Icon icon="lucide:arrow-right" className="h-4 w-4" aria-hidden="true" />
             </Link>
           </div>
         </div>

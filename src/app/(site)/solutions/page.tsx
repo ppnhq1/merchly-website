@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { Icon } from "@/components/ui/AppIcon";
 import { getSolutions } from "@/lib/solutions";
 import { resolveIcon } from "@/lib/resolve-icon";
 
@@ -28,7 +28,7 @@ export default async function SolutionsPage() {
       <div className="max-w-6xl mx-auto px-4 lg:px-8 py-20">
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {solutions.map((solution) => {
-            const Icon = resolveIcon(solution.icon);
+            const icon = resolveIcon(solution.icon);
             return (
               <Link
                 key={solution.slug}
@@ -37,7 +37,7 @@ export default async function SolutionsPage() {
               >
                 <div className="card-body">
                   <div className="h-11 w-11 mask mask-squircle bg-base-200 text-base-content/70 flex items-center justify-center">
-                    <Icon className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />
+                    <Icon icon={icon} className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />
                   </div>
                   <h2 className="card-title text-lg font-heading mt-2">
                     {solution.name}
@@ -61,7 +61,7 @@ export default async function SolutionsPage() {
               className="btn btn-primary shrink-0 inline-flex items-center gap-1"
             >
               Talk to a specialist
-              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              <Icon icon="lucide:arrow-right" className="h-4 w-4" aria-hidden="true" />
             </Link>
           </div>
         </div>

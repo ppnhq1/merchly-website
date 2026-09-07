@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowRight, Check, X } from "lucide-react";
+import { Icon } from "@/components/ui/AppIcon";
 import { LeadModalTrigger } from "@/components/marketing/LeadModalTrigger";
 import { getComparisonBySlug } from "@/lib/compare";
 
@@ -79,7 +79,8 @@ export default async function ComparisonPage({
                   <td className="font-medium">{point.category}</td>
                   <td>
                     <div className="flex items-start gap-2">
-                      <Check
+                      <Icon
+                        icon="lucide:check"
                         className="h-4 w-4 text-primary shrink-0 mt-0.5"
                         aria-hidden="true"
                       />
@@ -88,7 +89,8 @@ export default async function ComparisonPage({
                   </td>
                   <td className="text-base-content/70">
                     <div className="flex items-start gap-2">
-                      <X
+                      <Icon
+                        icon="lucide:x"
                         className="h-4 w-4 text-base-content/40 shrink-0 mt-0.5"
                         aria-hidden="true"
                       />
@@ -118,7 +120,7 @@ export default async function ComparisonPage({
               className="btn btn-primary shrink-0 inline-flex items-center gap-1"
             >
               Get My Free Quote
-              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              <Icon icon="lucide:arrow-right" className="h-4 w-4" aria-hidden="true" />
             </LeadModalTrigger>
           </div>
         </div>

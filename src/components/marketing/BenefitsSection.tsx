@@ -1,26 +1,26 @@
-import { HandCoins, Zap, Headset, ShieldCheck } from "lucide-react";
+import { Icon } from "@/components/ui/AppIcon";
 
 const benefits = [
   {
     title: "Transparent pricing",
     description:
       "Interchange-level rates with no hidden fees or surprise statements.",
-    icon: HandCoins,
+    icon: "lucide:hand-coins",
   },
   {
     title: "Fast funding",
     description: "Get paid sooner with next-day and same-day funding options.",
-    icon: Zap,
+    icon: "lucide:zap",
   },
   {
     title: "24/7 support",
     description: "Real, US-based specialists who answer when you call.",
-    icon: Headset,
+    icon: "lucide:headset",
   },
   {
     title: "High-risk friendly",
     description: "Specialized underwriting for industries other processors decline.",
-    icon: ShieldCheck,
+    icon: "lucide:shield-check",
   },
 ];
 
@@ -33,7 +33,8 @@ export function BenefitsSection() {
             <div className="card bg-base-200 border border-base-300 shadow-sm h-full">
               <div className="card-body">
                 <div className="h-12 w-12 mask mask-squircle bg-primary/10 text-primary flex items-center justify-center">
-                  <benefit.icon
+                  <Icon
+                    icon={benefit.icon}
                     className="h-6 w-6"
                     strokeWidth={1.75}
                     aria-hidden="true"

@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
-import { Sun, Moon, Monitor } from "lucide-react";
+import { Icon } from "@/components/ui/AppIcon";
 
 const options = [
-  { value: "light", label: "Light", icon: Sun },
-  { value: "dark", label: "Dark", icon: Moon },
-  { value: "system", label: "System", icon: Monitor },
+  { value: "light", label: "Light", icon: "lucide:sun" },
+  { value: "dark", label: "Dark", icon: "lucide:moon" },
+  { value: "system", label: "System", icon: "lucide:monitor" },
 ] as const;
 
 export function ThemeToggle() {
@@ -38,9 +38,9 @@ export function ThemeToggle() {
         aria-label="Change theme"
       >
         {resolvedTheme === "dark" ? (
-          <Moon className="h-4.5 w-4.5" aria-hidden="true" />
+          <Icon icon="lucide:moon" className="h-4.5 w-4.5" aria-hidden="true" />
         ) : (
-          <Sun className="h-4.5 w-4.5" aria-hidden="true" />
+          <Icon icon="lucide:sun" className="h-4.5 w-4.5" aria-hidden="true" />
         )}
       </button>
       <ul
@@ -56,7 +56,7 @@ export function ThemeToggle() {
               className={theme === option.value ? "menu-active" : ""}
               onClick={() => setTheme(option.value)}
             >
-              <option.icon className="h-4 w-4" aria-hidden="true" />
+              <Icon icon={option.icon} className="h-4 w-4" aria-hidden="true" />
               {option.label}
             </button>
           </li>

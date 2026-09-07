@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowRight } from "lucide-react";
+import { Icon } from "@/components/ui/AppIcon";
 import { LeadModalTrigger } from "@/components/marketing/LeadModalTrigger";
 import { getIntegrationBySlug } from "@/lib/integrations";
 
@@ -77,7 +77,7 @@ export default async function IntegrationPage({
               className="btn btn-primary shrink-0 inline-flex items-center gap-1"
             >
               Get My Free Quote
-              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              <Icon icon="lucide:arrow-right" className="h-4 w-4" aria-hidden="true" />
             </LeadModalTrigger>
           </div>
         </div>
