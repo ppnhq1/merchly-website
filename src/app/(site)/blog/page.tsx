@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Newspaper } from "lucide-react";
+import { Icon } from "@/components/ui/AppIcon";
 import { getAllPosts } from "@/lib/posts";
 
 export const metadata: Metadata = {
@@ -37,7 +37,7 @@ export default async function BlogIndexPage() {
         {posts.length === 0 && (
           <div className="card bg-base-200 border border-base-300 border-dashed">
             <div className="card-body items-center text-center gap-2 py-16">
-              <Newspaper className="h-8 w-8 text-base-content/40" aria-hidden="true" />
+              <Icon icon="lucide:newspaper" className="h-8 w-8 text-base-content/40" aria-hidden="true" />
               <p className="text-base-content/60">No posts yet — check back soon.</p>
             </div>
           </div>

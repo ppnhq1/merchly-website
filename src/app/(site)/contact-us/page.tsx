@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Mail, Phone, Clock } from "lucide-react";
+import { Icon } from "@/components/ui/AppIcon";
 import { LeadForm } from "@/components/marketing/LeadForm";
 
 export const metadata: Metadata = {
@@ -9,9 +9,9 @@ export const metadata: Metadata = {
 };
 
 const contactDetails = [
-  { label: "Email", value: "hello@merchly.io", icon: Mail },
-  { label: "Phone", value: "(800) 555-0100", icon: Phone },
-  { label: "Hours", value: "Mon–Fri, 8am–6pm ET", icon: Clock },
+  { label: "Email", value: "hello@merchly.io", icon: "lucide:mail" },
+  { label: "Phone", value: "(800) 555-0100", icon: "lucide:phone" },
+  { label: "Hours", value: "Mon–Fri, 8am–6pm ET", icon: "lucide:clock" },
 ];
 
 export default function ContactUsPage() {
@@ -46,7 +46,7 @@ export default function ContactUsPage() {
                 {contactDetails.map((detail) => (
                   <li key={detail.label} className="list-row items-center">
                     <div className="h-9 w-9 mask mask-squircle bg-base-100 text-base-content/70 flex items-center justify-center shrink-0">
-                      <detail.icon className="h-4.5 w-4.5" strokeWidth={1.75} aria-hidden="true" />
+                      <Icon icon={detail.icon} className="h-4.5 w-4.5" strokeWidth={1.75} aria-hidden="true" />
                     </div>
                     <div>
                       <div className="text-sm text-base-content/60">{detail.label}</div>

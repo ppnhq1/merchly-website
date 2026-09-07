@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ShieldCheck } from "lucide-react";
+import { Icon } from "@/components/ui/AppIcon";
 import { getHighRiskNiches, getIndustries } from "@/lib/industries";
 import { LeadModalTrigger } from "@/components/marketing/LeadModalTrigger";
 
@@ -26,7 +26,7 @@ export async function SiteFooter() {
               Financial tools for modern business.
             </p>
             <div className="mt-4 inline-flex items-center gap-2 text-xs text-neutral-content/60">
-              <ShieldCheck className="h-4 w-4 shrink-0" aria-hidden="true" />
+              <Icon icon="lucide:shield-check" className="h-4 w-4 shrink-0" aria-hidden="true" />
               PCI DSS compliant processing
             </div>
             <div className="mt-2 inline-flex items-center gap-2 text-xs text-neutral-content/60">

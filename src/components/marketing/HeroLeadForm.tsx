@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { CheckCircle2, User, Mail, Phone, CalendarClock } from "lucide-react";
+import { Icon } from "@/components/ui/AppIcon";
 import { formatUsPhoneInput, normalizeUsPhoneToE164 } from "@/lib/phone";
 import { getRecaptchaToken } from "@/lib/recaptcha-client";
 import { TIME_IN_BUSINESS_OPTIONS, TIME_IN_BUSINESS_VALUES } from "@/lib/time-in-business";
@@ -76,7 +76,7 @@ export function HeroLeadForm({ source }: HeroLeadFormProps) {
       <div className="card w-full min-w-0 bg-base-300 border border-base-content/10 shadow-xl">
         <div className="card-body items-center text-center gap-3">
           <div className="rounded-full bg-success/15 p-3">
-            <CheckCircle2 className="h-6 w-6 text-success" aria-hidden="true" />
+            <Icon icon="lucide:check-circle-2" className="h-6 w-6 text-success" aria-hidden="true" />
           </div>
           <h2 className="card-title font-heading">You&apos;re all set</h2>
           <p className="text-sm text-base-content/70">
@@ -123,7 +123,7 @@ export function HeroLeadForm({ source }: HeroLeadFormProps) {
                     : "input input-sm w-full"
                 }
               >
-                <User className="h-3.5 w-3.5 opacity-50 shrink-0" aria-hidden="true" />
+                <Icon icon="lucide:user" className="h-3.5 w-3.5 opacity-50 shrink-0" aria-hidden="true" />
                 <input
                   id="hero-first-name"
                   type="text"
@@ -146,7 +146,7 @@ export function HeroLeadForm({ source }: HeroLeadFormProps) {
                     : "input input-sm w-full"
                 }
               >
-                <User className="h-3.5 w-3.5 opacity-50 shrink-0" aria-hidden="true" />
+                <Icon icon="lucide:user" className="h-3.5 w-3.5 opacity-50 shrink-0" aria-hidden="true" />
                 <input
                   id="hero-last-name"
                   type="text"
@@ -166,7 +166,7 @@ export function HeroLeadForm({ source }: HeroLeadFormProps) {
           <label
             className={errors.email ? "input input-sm input-error w-full" : "input input-sm w-full"}
           >
-            <Mail className="h-3.5 w-3.5 opacity-50 shrink-0" aria-hidden="true" />
+            <Icon icon="lucide:mail" className="h-3.5 w-3.5 opacity-50 shrink-0" aria-hidden="true" />
             <input
               id="hero-email"
               type="email"
@@ -186,7 +186,7 @@ export function HeroLeadForm({ source }: HeroLeadFormProps) {
               errors.phone ? "input input-sm input-error w-full" : "input input-sm w-full"
             }
           >
-            <Phone className="h-3.5 w-3.5 opacity-50 shrink-0" aria-hidden="true" />
+            <Icon icon="lucide:phone" className="h-3.5 w-3.5 opacity-50 shrink-0" aria-hidden="true" />
             <input
               id="hero-phone"
               type="tel"
@@ -215,7 +215,7 @@ export function HeroLeadForm({ source }: HeroLeadFormProps) {
               errors.timeInBusiness ? "select select-sm select-error w-full" : "select select-sm w-full"
             }
           >
-            <CalendarClock className="h-3.5 w-3.5 opacity-50 shrink-0" aria-hidden="true" />
+            <Icon icon="lucide:calendar-clock" className="h-3.5 w-3.5 opacity-50 shrink-0" aria-hidden="true" />
             <select
               id="hero-time-in-business"
               className="grow min-w-0"

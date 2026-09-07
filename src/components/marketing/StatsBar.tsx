@@ -1,13 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import {
-  Store,
-  Landmark,
-  ActivitySquare,
-  Headset,
-  type LucideIcon,
-} from "lucide-react";
+import { Icon } from "@/components/ui/AppIcon";
 
 // TODO: replace placeholder figures with real company stats before launch.
 type Stat =
@@ -18,19 +12,19 @@ type Stat =
       prefix?: string;
       suffix?: string;
       label: string;
-      icon: LucideIcon;
+      icon: string;
     }
-  | { type: "static"; value: string; label: string; icon: LucideIcon };
+  | { type: "static"; value: string; label: string; icon: string };
 
 const stats: Stat[] = [
-  { type: "count", target: 10000, suffix: "+", label: "Merchants served", icon: Store },
+  { type: "count", target: 10000, suffix: "+", label: "Merchants served", icon: "lucide:store" },
   {
     type: "count",
     target: 2,
     prefix: "$",
     suffix: "B+",
     label: "Processed annually",
-    icon: Landmark,
+    icon: "lucide:landmark",
   },
   {
     type: "count",
@@ -38,9 +32,9 @@ const stats: Stat[] = [
     decimals: 2,
     suffix: "%",
     label: "Platform uptime",
-    icon: ActivitySquare,
+    icon: "lucide:activity-square",
   },
-  { type: "static", value: "24/7", label: "US-based support", icon: Headset },
+  { type: "static", value: "24/7", label: "US-based support", icon: "lucide:headset" },
 ];
 
 const COUNT_DURATION_MS = 1800;
@@ -121,7 +115,7 @@ export function StatsBar() {
           {stats.map((stat) => (
             <div key={stat.label} className="stat place-items-center text-center">
               <div className="stat-figure text-primary">
-                <stat.icon className="h-6 w-6" strokeWidth={1.75} aria-hidden="true" />
+                <Icon icon={stat.icon} className="h-6 w-6" strokeWidth={1.75} aria-hidden="true" />
               </div>
               {stat.type === "count" ? (
                 <CountUpValue

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, BookOpen } from "lucide-react";
+import { Icon } from "@/components/ui/AppIcon";
 import { getResources } from "@/lib/resources";
 
 export const metadata: Metadata = {
@@ -34,7 +34,8 @@ export default async function ResourcesPage() {
             >
               <div className="card-body">
                 <div className="h-11 w-11 mask mask-squircle bg-base-200 text-base-content/70 flex items-center justify-center">
-                  <BookOpen
+                  <Icon
+                    icon="lucide:book-open"
                     className="h-5 w-5"
                     strokeWidth={1.75}
                     aria-hidden="true"
@@ -63,7 +64,7 @@ export default async function ResourcesPage() {
               </p>
               <span className="inline-flex items-center gap-1 text-sm font-medium text-primary mt-1">
                 Visit the blog
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                <Icon icon="lucide:arrow-right" className="h-4 w-4" aria-hidden="true" />
               </span>
             </div>
           </Link>

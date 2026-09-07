@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Menu, ArrowRight } from "lucide-react";
+import { Icon } from "@/components/ui/AppIcon";
 import { getHighRiskNiches, getIndustries } from "@/lib/industries";
 import { getSolutions } from "@/lib/solutions";
 import { getIntegrations } from "@/lib/integrations";
@@ -53,7 +53,7 @@ export async function SiteHeader() {
             style={{ anchorName: "--mobile-nav-menu" } as React.CSSProperties}
             aria-label="Open menu"
           >
-            <Menu className="h-5 w-5" aria-hidden="true" />
+            <Icon icon="lucide:menu" className="h-5 w-5" aria-hidden="true" />
           </button>
         </div>
         <ul
@@ -420,7 +420,7 @@ export async function SiteHeader() {
         <ThemeToggle />
         <LeadModalTrigger source="header-cta" className="btn btn-primary btn-sm">
           Get Started
-          <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          <Icon icon="lucide:arrow-right" className="h-4 w-4" aria-hidden="true" />
         </LeadModalTrigger>
       </div>
     </header>

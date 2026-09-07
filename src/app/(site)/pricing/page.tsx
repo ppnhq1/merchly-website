@@ -1,12 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import {
-  ArrowRight,
-  Receipt,
-  Percent,
-  SlidersHorizontal,
-  CircleDollarSign,
-} from "lucide-react";
+import { Icon } from "@/components/ui/AppIcon";
 import { LeadModalTrigger } from "@/components/marketing/LeadModalTrigger";
 import { getPricingContent } from "@/lib/pricing";
 
@@ -47,7 +41,7 @@ export default async function PricingPage() {
         <div className="grid sm:grid-cols-2 gap-8">
           <div className="card bg-base-100 border border-base-300">
             <div className="card-body">
-              <Receipt className="h-8 w-8 text-primary" aria-hidden="true" />
+              <Icon icon="lucide:receipt" className="h-8 w-8 text-primary" aria-hidden="true" />
               <h2 className="card-title font-heading mt-2">
                 Interchange-plus pricing
               </h2>
@@ -64,7 +58,7 @@ export default async function PricingPage() {
           </div>
           <div className="card bg-base-100 border border-base-300">
             <div className="card-body">
-              <Percent className="h-8 w-8 text-primary" aria-hidden="true" />
+              <Icon icon="lucide:percent" className="h-8 w-8 text-primary" aria-hidden="true" />
               <h2 className="card-title font-heading mt-2">
                 No long-term contracts
               </h2>
@@ -121,7 +115,8 @@ export default async function PricingPage() {
                 key={factor.title}
                 className="flex items-start gap-4 py-4 border-b border-base-300 last:border-b-0"
               >
-                <SlidersHorizontal
+                <Icon
+                  icon="lucide:sliders-horizontal"
                   className="h-5 w-5 text-primary shrink-0 mt-0.5"
                   aria-hidden="true"
                 />
@@ -142,7 +137,7 @@ export default async function PricingPage() {
           <div className="card-body items-center text-center sm:items-start sm:text-left sm:flex-row sm:justify-between gap-4">
             <div>
               <h2 className="card-title font-heading">
-                <CircleDollarSign className="h-5 w-5" aria-hidden="true" />
+                <Icon icon="lucide:circle-dollar-sign" className="h-5 w-5" aria-hidden="true" />
                 See your actual rate
               </h2>
               <p className="mt-1 text-sm text-neutral-content/70">
@@ -154,7 +149,7 @@ export default async function PricingPage() {
               className="btn btn-primary shrink-0 inline-flex items-center gap-1"
             >
               Get My Free Quote
-              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              <Icon icon="lucide:arrow-right" className="h-4 w-4" aria-hidden="true" />
             </LeadModalTrigger>
           </div>
         </div>

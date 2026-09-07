@@ -1,4 +1,4 @@
-import { Quote } from "lucide-react";
+import { Icon } from "@/components/ui/AppIcon";
 import type { ReviewEntry } from "@/lib/industries";
 
 type ReviewsSectionProps = {
@@ -36,7 +36,7 @@ export function ReviewsSection({ reviews }: ReviewsSectionProps) {
             className="card card-border bg-base-100 border-base-300"
           >
             <div className="card-body gap-3">
-              <Quote className="h-5 w-5 text-primary/40" aria-hidden="true" strokeWidth={2.5} />
+              <Icon icon="lucide:quote" className="h-5 w-5 text-primary/40" aria-hidden="true" strokeWidth={2.5} />
               <blockquote className="text-base-content/80 text-sm leading-relaxed -mt-1">
                 {review.quote}
               </blockquote>

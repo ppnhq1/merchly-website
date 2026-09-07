@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { CircleHelp, Info, PhoneCall, X } from "lucide-react";
+import { Icon } from "@/components/ui/AppIcon";
 import { LeadModalTrigger } from "@/components/marketing/LeadModalTrigger";
 
 // Placeholder pricing assumptions for the estimate shown below.
@@ -192,14 +192,15 @@ export function RateCalculator() {
                   onClick={() => setShowRateHelper(true)}
                   className="btn btn-link btn-xs justify-start px-0 mt-1 no-underline hover:underline"
                 >
-                  <CircleHelp className="h-3.5 w-3.5" aria-hidden="true" />
+                  <Icon icon="lucide:circle-help" className="h-3.5 w-3.5" aria-hidden="true" />
                   Unsure of your effective rate? We can help
                 </button>
               ) : (
                 <div className="mt-2 rounded-box border border-base-300 bg-base-200 p-3">
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex items-start gap-2">
-                      <Info
+                      <Icon
+                        icon="lucide:info"
                         className="h-4 w-4 text-info shrink-0 mt-0.5"
                         aria-hidden="true"
                       />
@@ -220,7 +221,7 @@ export function RateCalculator() {
                       aria-label="Close"
                       className="btn btn-ghost btn-xs btn-circle shrink-0"
                     >
-                      <X className="h-3.5 w-3.5" aria-hidden="true" />
+                      <Icon icon="lucide:x" className="h-3.5 w-3.5" aria-hidden="true" />
                     </button>
                   </div>
 
@@ -328,7 +329,7 @@ export function RateCalculator() {
                 source="rate-calculator"
                 className="btn btn-primary btn-block"
               >
-                <PhoneCall className="h-4 w-4" aria-hidden="true" />
+                <Icon icon="lucide:phone-call" className="h-4 w-4" aria-hidden="true" />
                 Get my actual custom rate
               </LeadModalTrigger>
               <p className="text-xs text-base-content/60 text-center mt-2">

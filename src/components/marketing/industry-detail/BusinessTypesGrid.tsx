@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { Icon } from "@/components/ui/AppIcon";
 import type { BusinessTypeEntry } from "@/lib/industries";
 import { resolveIcon } from "@/lib/resolve-icon";
 
@@ -26,12 +26,12 @@ export function BusinessTypesGrid({ businessTypes }: BusinessTypesGridProps) {
       </div>
       <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {entries.map((type) => {
-          const Icon = type.icon ? resolveIcon(type.icon) : null;
+          const icon = type.icon ? resolveIcon(type.icon) : null;
           const content = (
             <>
-              {Icon && (
+              {icon && (
                 <div className="h-9 w-9 rounded-lg bg-base-200 text-base-content/70 flex items-center justify-center shrink-0 group-hover:bg-primary/15 group-hover:text-primary transition-colors">
-                  <Icon className="h-4.5 w-4.5" strokeWidth={1.75} aria-hidden="true" />
+                  <Icon icon={icon} className="h-4.5 w-4.5" strokeWidth={1.75} aria-hidden="true" />
                 </div>
               )}
               <span className="font-medium text-sm min-w-0">{type.name}</span>
@@ -43,7 +43,8 @@ export function BusinessTypesGrid({ businessTypes }: BusinessTypesGridProps) {
             const linkClassName =
               "group card card-sm card-border card-side items-center gap-3 px-4 py-3 bg-base-100 border-base-300 hover:border-primary/40 hover:shadow-sm transition-all";
             const arrow = (
-              <ArrowUpRight
+              <Icon
+                icon="lucide:arrow-up-right"
                 className="h-4 w-4 ml-auto text-base-content/30 group-hover:text-primary transition-colors shrink-0"
                 aria-hidden="true"
               />

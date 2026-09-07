@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { Icon } from "@/components/ui/AppIcon";
 import { LeadModalTrigger } from "@/components/marketing/LeadModalTrigger";
 import type { Industry } from "@/lib/industries";
 
@@ -187,7 +187,7 @@ export function Hero({ industries }: { industries: Industry[] }) {
               className="btn btn-primary btn-lg transition-transform hover:-translate-y-0.5"
             >
               See Your Rate
-              <ArrowRight className="h-5 w-5" aria-hidden="true" />
+              <Icon icon="lucide:arrow-right" className="h-5 w-5" aria-hidden="true" />
             </LeadModalTrigger>
             <Link href="/industries" className="btn btn-outline btn-lg">
               Explore Industries
@@ -197,7 +197,8 @@ export function Hero({ industries }: { industries: Industry[] }) {
           <ul className={mounted ? trustRevealedClass : trustHiddenClass}>
             {trustPoints.map((point) => (
               <li key={point} className="flex items-center gap-2 text-sm">
-                <CheckCircle2
+                <Icon
+                  icon="lucide:check-circle-2"
                   className="h-4 w-4 text-success shrink-0"
                   aria-hidden="true"
                 />
@@ -267,7 +268,7 @@ export function Hero({ industries }: { industries: Industry[] }) {
                 className="btn btn-secondary mt-4 justify-between"
               >
                 See your exact rate and savings
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                <Icon icon="lucide:arrow-right" className="h-4 w-4" aria-hidden="true" />
               </Link>
             </div>
           </div>

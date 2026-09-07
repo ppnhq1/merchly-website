@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { Icon } from "@/components/ui/AppIcon";
 import { Hero } from "@/components/marketing/Hero";
 import { RateCalculator } from "@/components/marketing/RateCalculator";
 import { BenefitsSection } from "@/components/marketing/BenefitsSection";
@@ -121,7 +121,7 @@ export default async function HomePage() {
                 </div>
                 <span className="inline-flex items-center gap-1 w-fit font-medium underline underline-offset-2">
                   See high-risk specialties
-                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                  <Icon icon="lucide:arrow-right" className="h-4 w-4" aria-hidden="true" />
                 </span>
               </div>
             </Link>
@@ -153,7 +153,7 @@ export default async function HomePage() {
                 </h3>
                 <span className="inline-flex items-center gap-1 text-sm">
                   Browse the full list
-                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                  <Icon icon="lucide:arrow-right" className="h-4 w-4" aria-hidden="true" />
                 </span>
               </div>
             </Link>
